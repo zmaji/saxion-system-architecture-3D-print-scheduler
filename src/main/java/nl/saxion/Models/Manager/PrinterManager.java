@@ -1,27 +1,44 @@
-package nl.saxion;
+package nl.saxion.Models.Manager;
 
-import nl.saxion.Models.*;
+import nl.saxion.Models.Printers.HousedPrinter;
+import nl.saxion.Models.Printers.MultiColor;
+import nl.saxion.Models.Printers.Printer;
+import nl.saxion.Models.Printers.StandardFDM;
+import nl.saxion.Models.Prints.FilamentType;
+import nl.saxion.Models.Prints.Print;
+import nl.saxion.Models.Prints.PrintTask;
+import nl.saxion.Models.Prints.Spool;
 import org.json.simple.JSONArray;
-
 import java.util.*;
 
 public class PrinterManager {
-    private ArrayList<Printer> printers = new ArrayList<Printer>(); //TODO use interface
-    private ArrayList<Print> prints = new ArrayList<Print>(); //TODO use interface
-    private ArrayList<Spool> spools = new ArrayList<Spool>(); //TODO use interface
+    //TODO: Changed all Arraylists to using List interface
+    private List<Printer> printers = new ArrayList<>();
+    private List<Print> prints = new ArrayList<>();
+    private List<Spool> spools = new ArrayList<>();
 
-    private ArrayList<Spool> freeSpools = new ArrayList<>(); // TODO: Decide if this should be used at all.
-    private ArrayList<Printer> freePrinters = new ArrayList<>();
-    private ArrayList<PrintTask> pendingPrintTasks = new ArrayList<>();
+    private List<Spool> freeSpools = new ArrayList<>(); // TODO: Decide if this should be used at all.
+    private List<Printer> freePrinters = new ArrayList<>();
+    private List<PrintTask> pendingPrintTasks = new ArrayList<>();
     private HashMap<Printer, PrintTask> runningPrintTasks = new HashMap();
 
+    //TODO: Added a List for availableColors, this is a temporary solution until we know how to fix this problem.
+    private List<String> availableColors = new ArrayList<>();
+
+    //TODO: Added a Print Strategy. Changing through menu works, currently no Pattern implemented.
+    private String printStrategy = "Less Spool Changes";
+
+    //TODO: Add Pattern to adding a Printer? What if more printers are added later on?
+    //TODO: Add ENUM to printerType?
     public void addPrinter(int id, int printerType, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors, JSONArray currentSpools) {
         if (printerType == 1) {
             StandardFDM printer = new StandardFDM(id, printerName, manufacturer, maxX, maxY, maxZ);
             Spool cspool = getSpoolByID(((Long) currentSpools.get(0)).intValue());
             printer.setCurrentSpool(cspool);
+            //TODO: Make Spools have 2 States? Used and unused. This removes the freeSpools list entirely.
             freeSpools.remove(cspool);
             printers.add(printer);
+            //TODO: Make Printer have 2 States? Used and unused. This removes the freePrinters list entirely.
             freePrinters.add(printer);
         } else if (printerType == 2) {
             HousedPrinter printer = new HousedPrinter(id, printerName, manufacturer, maxX, maxY, maxZ);
@@ -50,6 +67,7 @@ public class PrinterManager {
         return list.stream().anyMatch(o -> o.getColor().equals(name));
     }
 
+    //TODO: How to break this entire method into smaller pieces?
     public void selectPrintTask(Printer printer) {
         Spool[] spools = printer.getCurrentSpools();
         PrintTask chosenTask = null;
@@ -137,9 +155,13 @@ public class PrinterManager {
                         // We assume that if they are the same length that there is a match.
                         if (chosenSpools.size() == printTask.getColors().size()) {
                             runningPrintTasks.put(printer, printTask);
-                            for (Spool spool : printer.getCurrentSpools()) {
-                                freeSpools.add(spool);
-                            }
+
+                            //TODO: Changed this to a one liner
+//                            for (Spool spool : printer.getCurrentSpools()) {
+//                                freeSpools.add(spool);
+//                            }
+                            freeSpools.addAll(Arrays.asList(printer.getCurrentSpools()));
+
                             printer.setCurrentSpools(chosenSpools);
                             for (Spool spool : chosenSpools) {
                                 System.out.println("Please place spool " + spool.getId() + " in printer " + printer.getName());
@@ -164,18 +186,21 @@ public class PrinterManager {
         }
     }
 
+    //TODO: Added method that creates a new Print and adds it to a List
     public void addPrint(String name, String filename, int height, int width, int length, ArrayList<Integer> filamentLength) {
         Print p = new Print(name, filename, height, width, length, filamentLength);
         prints.add(p);
     }
 
-    public ArrayList<Print> getPrints() {
-        return prints;
+    //TODO: Added method that creates a new Spool and adds it to a List
+    public void addSpool(int id, String color, FilamentType filamentType, double length) {
+        Spool s = new Spool(id, color, filamentType, length);
+        spools.add(s);
     }
 
-    public ArrayList<Printer> getPrinters() {
-        return printers;
-    }
+//    public List<Print> getPrints() {
+//        return prints;
+//    }
 
     public PrintTask getPrinterCurrentTask(Printer printer) {
         if(!runningPrintTasks.containsKey(printer)) {
@@ -184,7 +209,9 @@ public class PrinterManager {
         return runningPrintTasks.get(printer);
     }
 
-    public ArrayList<PrintTask> getPendingPrintTasks() {return pendingPrintTasks; }
+    public List<PrintTask> getPendingPrintTasks() {
+        return pendingPrintTasks;
+    }
 
     public void addPrintTask(String printName, List<String> colors, FilamentType type) {
         Print print = findPrint(printName);
@@ -213,7 +240,6 @@ public class PrinterManager {
         PrintTask task = new PrintTask(print, colors, type);
         pendingPrintTasks.add(task);
         System.out.println("Added task to queue");
-
     }
 
     public Print findPrint(String printName) {
@@ -237,10 +263,6 @@ public class PrinterManager {
         freeSpools.add(spool);
     }
 
-    public List<Spool> getSpools() {
-        return spools;
-    }
-
     public Spool getSpoolByID(int id) {
         for(Spool s: spools) {
             if(s.getId() == id) {
@@ -250,6 +272,7 @@ public class PrinterManager {
         return null;
     }
 
+    //TODO: Make this register on observation?
     public void registerPrinterFailure(int printerId) {
         Map.Entry<Printer, PrintTask> foundEntry = null;
         for (Map.Entry<Printer, PrintTask> entry : runningPrintTasks.entrySet()) {
@@ -277,6 +300,7 @@ public class PrinterManager {
         selectPrintTask(printer);
     }
 
+    //TODO: Make this register on observation?
     public void registerCompletion(int printerId) {
         Map.Entry<Printer, PrintTask> foundEntry = null;
         for (Map.Entry<Printer, PrintTask> entry : runningPrintTasks.entrySet()) {
@@ -309,6 +333,33 @@ public class PrinterManager {
         System.out.println("Error: "+s);
         System.out.println("Press Enter to continue");
         new Scanner(System.in).nextLine();
+    }
+
+    public void addAvailableColor(String colorString) {
+        availableColors.add(colorString);
+    }
+
+    public String getPrintStrategy() {
+        return printStrategy;
+    }
+
+    public List<Print> getAvailablePrints() {
+        return prints;
+    }
+
+    public List<String> getAvailableColors() {
+        return availableColors;
+    }
+
+    public List<Spool> getSpools() {
+        return spools;
+    }
+    public List<Printer> getPrinters() {
+        return printers;
+    }
+
+    public void setPrintStrategy(String printStrategy) {
+        this.printStrategy = printStrategy;
     }
 
 }

@@ -1,6 +1,6 @@
-package nl.saxion.Models;
+package nl.saxion.Models.Prints;
 
-import java.util.Objects;
+import nl.saxion.Models.Prints.FilamentType;
 
 public class Spool {
     private final int id;
@@ -24,10 +24,12 @@ public class Spool {
     }
 
     public boolean spoolMatch(String color, FilamentType type) {
-        if(color.equals(this.color) && type == this.getFilamentType()) {
-            return true;
-        }
-        return false;
+        //TODO: Auto-simplified statement
+//        if(color.equals(this.color) && type == this.getFilamentType()) {
+//            return true;
+//        }
+//        return false;
+        return color.equals(this.color) && type == this.getFilamentType();
     }
     /**
      * This method will try to reduce the length of the spool.

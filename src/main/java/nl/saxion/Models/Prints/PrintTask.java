@@ -1,7 +1,6 @@
-package nl.saxion.Models;
+package nl.saxion.Models.Prints;
 
 import java.util.List;
-import java.util.UUID;
 
 public class PrintTask {
     private Print print;
