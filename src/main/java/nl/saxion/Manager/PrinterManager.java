@@ -8,8 +8,8 @@ import nl.saxion.Models.Prints.FilamentType;
 import nl.saxion.Models.Prints.Print;
 import nl.saxion.Models.Prints.PrintTask;
 import nl.saxion.Models.Prints.Spool;
-import nl.saxion.Models.Prints.observer.PrintTaskCompletionObserver;
-import nl.saxion.Models.Prints.observer.PrintTaskFailureObserver;
+import nl.saxion.Models.Prints.Observer.PrintTaskCompletionObserver;
+import nl.saxion.Models.Prints.Observer.PrintTaskFailureObserver;
 import org.json.simple.JSONArray;
 import java.util.*;
 
