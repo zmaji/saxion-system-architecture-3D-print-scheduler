@@ -1,10 +1,10 @@
 package nl.saxion.Models.Prints;
 
-import nl.saxion.Models.Prints.observer.PrintTaskObserver;
-import nl.saxion.Models.Prints.state.CompletedState;
-import nl.saxion.Models.Prints.state.FailedState;
-import nl.saxion.Models.Prints.state.PendingState;
-import nl.saxion.Models.Prints.state.PrintTaskState;
+import nl.saxion.Models.Prints.Observer.PrintTaskObserver;
+import nl.saxion.Models.Prints.State.CompletedState;
+import nl.saxion.Models.Prints.State.FailedState;
+import nl.saxion.Models.Prints.State.PendingState;
+import nl.saxion.Models.Prints.State.PrintTaskState;
 
 import java.util.ArrayList;
 import java.util.List;

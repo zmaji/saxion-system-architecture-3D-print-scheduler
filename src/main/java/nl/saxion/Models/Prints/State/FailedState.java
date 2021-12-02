@@ -1,4 +1,4 @@
-package nl.saxion.Models.Prints.state;
+package nl.saxion.Models.Prints.State;
 
 import nl.saxion.Models.Prints.PrintTask;
 

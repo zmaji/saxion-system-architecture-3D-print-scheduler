@@ -32,6 +32,7 @@ public class PrinterFacade {
 //    public void registerPrinterFailure() {
 //        printerManager.registerPrinterFailure();
 //    }
+
     public void addNewPrintTask() {
         showItems("Available prints","prints");
         System.out.print("Print number: ");

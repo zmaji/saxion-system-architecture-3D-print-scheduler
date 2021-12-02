@@ -7,31 +7,28 @@ import java.util.ArrayList;
 
 /* Standard cartesian FDM printer */
 public class StandardFDM extends Printer {
-    private final int maxX;
-    private final int maxY;
-    private final int maxZ;
-    private Spool currentSpool;
+
 
     public StandardFDM(int id, String printerName, String manufacturer, int maxX, int maxY, int maxZ) {
-        super(id, printerName, manufacturer);
-        this.maxX = maxX;
-        this.maxY = maxY;
-        this.maxZ = maxZ;
-
+        super(id, printerName, manufacturer, maxX, maxY, maxZ);
     }
 
+    @Override
     public void setCurrentSpools(ArrayList<Spool> spools) {
         this.currentSpool = spools.get(0);
     }
 
+    @Override
     public void setCurrentSpool(Spool spool) {
         this.currentSpool = spool;
     }
 
+    @Override
     public Spool getCurrentSpool() {
         return currentSpool;
     }
 
+    @Override
     public Spool[] getCurrentSpools() {
         Spool[] spools = new Spool[1];
         spools[0] = currentSpool;

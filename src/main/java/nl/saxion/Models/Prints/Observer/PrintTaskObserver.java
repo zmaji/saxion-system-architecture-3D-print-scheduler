@@ -1,4 +1,4 @@
-package nl.saxion.Models.Prints.observer;
+package nl.saxion.Models.Prints.Observer;
 
 import nl.saxion.Models.Prints.PrintTask;
 
