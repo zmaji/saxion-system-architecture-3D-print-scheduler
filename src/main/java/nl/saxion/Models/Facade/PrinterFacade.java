@@ -40,7 +40,7 @@ public class PrinterFacade {
 
         printAvailableSpools(chosenType);
         System.out.print("Color number: ");
-        List<String> chosenColors = findColorsOnInput(chosenPrint);
+        List<String> chosenColors = findColorsOnInput(chosenPrint, chosenType);
 
         addPrintTask(chosenPrint.getName(), chosenColors, chosenType);
     }
@@ -216,16 +216,34 @@ public class PrinterFacade {
         return type;
     }
 
-    private List<String> findColorsOnInput(Print print) {
-        List<String> colors = getAvailableColors();
-        int colorChoice = Helper.numberInput(1, colors.size()); // Keep in mind that 0, is starting entry for a list.
-        colors.add(colors.get(colorChoice-1));
+    private List<String> findColorsOnInput(Print print, FilamentType type) {
+        List<String> colors = new ArrayList<>();
+        List<String> availableColors = new ArrayList<>();
+
+        var counter = 1;
+        for (var spool : printerManager.getSpools()) {
+            String colorString = spool.getColor();
+            if(type == spool.getFilamentType() && !availableColors.contains(colorString)) {
+                availableColors.add(colorString);
+                counter++;
+            }
+        }
+
+        int colorChoice = Helper.numberInput(1, availableColors.size()); // Keep in mind that 0, is starting entry for a list.
+        colors.add(availableColors.get(colorChoice-1));
         for(int i = 1; i < print.getFilamentLength().size(); i++) {
             System.out.print("Color number: ");
             colorChoice = Helper.numberInput(1, colors.size());
-            colors.add(colors.get(colorChoice-1));
+            colors.add(availableColors.get(colorChoice-1));
         }
         return colors;
+
+        ////        int colorChoice = numberInput(1, availableColors.size());
+////        colors.add(availableColors.get(colorChoice-1));
+////        for(int i = 1; i < print.getFilamentLength().size(); i++) {
+////            System.out.print("Color number: ");
+////            colorChoice = numberInput(1, availableColors.size());
+////            colors.add(availableColors.get(colorChoice-1));
     }
 
     public void showItems(String title, String type) {
