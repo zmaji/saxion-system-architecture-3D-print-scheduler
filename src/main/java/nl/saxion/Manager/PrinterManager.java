@@ -10,6 +10,8 @@ import nl.saxion.Models.Prints.PrintTask;
 import nl.saxion.Models.Prints.Spool;
 import nl.saxion.Models.Prints.observer.PrintTaskCompletionObserver;
 import nl.saxion.Models.Prints.observer.PrintTaskFailureObserver;
+import nl.saxion.strategies.LessSpoolChangeStrategy;
+import nl.saxion.strategies.PrintStrategy;
 import org.json.simple.JSONArray;
 import java.util.*;
 
@@ -23,7 +25,8 @@ public class PrinterManager {
     private List<PrintTask> pendingPrintTasks = new ArrayList<>();
     private HashMap<Printer, PrintTask> runningPrintTasks = new HashMap();
 
-    private String printStrategy = "Less Spool Changes";
+//    private String printStrategy = "Less Spool Changes";
+    private PrintStrategy printStrategy = new LessSpoolChangeStrategy();
 
     public void addPrinter(int id, int printerType, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors, JSONArray currentSpools) {
         switch(printerType) {
@@ -335,7 +338,7 @@ public class PrinterManager {
         new Scanner(System.in).nextLine();
     }
 
-    public String getPrintStrategy() {
+    public PrintStrategy getPrintStrategy() {
         return printStrategy;
     }
     public List<Print> getAvailablePrints() {
@@ -348,7 +351,7 @@ public class PrinterManager {
         return printers;
     }
 
-    public void setPrintStrategy(String printStrategy) {
+    public void setPrintStrategy(PrintStrategy printStrategy) {
         this.printStrategy = printStrategy;
     }
 

@@ -7,6 +7,9 @@ import nl.saxion.Models.Prints.FilamentType;
 import nl.saxion.Models.Prints.Print;
 import nl.saxion.Models.Prints.PrintTask;
 import nl.saxion.Models.Prints.Spool;
+import nl.saxion.strategies.EfficientSpoolUsageStrategy;
+import nl.saxion.strategies.LessSpoolChangeStrategy;
+import nl.saxion.strategies.PrintStrategy;
 import org.json.simple.JSONArray;
 
 import java.util.ArrayList;
@@ -55,13 +58,14 @@ public class PrinterFacade {
         System.out.println("2: Efficient Spool Usage");
         System.out.println("Choose strategy: ");
         int strategyChoice = Helper.numberInput(1, 2);
-        String strategy = "";
+        PrintStrategy strategy = null;
         if(strategyChoice == 1) {
-            strategy = "Less Spool Changes";
+            strategy = new LessSpoolChangeStrategy();
         } else if( strategyChoice == 2) {
-            strategy = "Efficient Spool Usage";
+            strategy = new EfficientSpoolUsageStrategy();
         }
 
+        System.out.println("Strategy set to: " + strategy.toString());
         printerManager.setPrintStrategy(strategy);
     }
 
@@ -214,7 +218,7 @@ public class PrinterFacade {
         return printerManager.getAvailablePrints();
     }
 
-    public String getPrintStrategy() {
+    public PrintStrategy getPrintStrategy() {
         return printerManager.getPrintStrategy();
     }
 
