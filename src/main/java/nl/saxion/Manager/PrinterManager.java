@@ -28,6 +28,18 @@ public class PrinterManager {
 //    private String printStrategy = "Less Spool Changes";
     private PrintStrategy printStrategy = new LessSpoolChangeStrategy();
 
+    /** Calls a certain method based on the printerType given in the parameters
+     *
+     * @param id the ID value of the Printer
+     * @param printerType the Type value of the Printer
+     * @param printerName the name of the Printer
+     * @param manufacturer the manufacturer of the Printer
+     * @param maxX the maxX value of the Printer
+     * @param maxY the maxY value of the Printer
+     * @param maxZ the maxZ value of the Printer
+     * @param maxColors the maximum colors of the Printer
+     * @param currentSpools the currentSpools of the Printer
+     */
     public void addPrinter(int id, int printerType, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors, JSONArray currentSpools) {
         switch(printerType) {
             case 1 -> addStandardFDMPrinter(id, printerName, manufacturer, maxX, maxY, maxZ, currentSpools);
@@ -36,6 +48,16 @@ public class PrinterManager {
         }
     }
 
+    /** Creates a new StandardFDM Printer based on given parameters and adds it to certain lists
+     *
+     * @param id the ID value of the Printer
+     * @param printerName the name of the Printer
+     * @param manufacturer the manufacturer of the Printer
+     * @param maxX the maxX value of the Printer
+     * @param maxY the maxY value of the Printer
+     * @param maxZ the maxZ value of the Printer
+     * @param currentSpools the currentSpools of the Printer
+     */
     private void addStandardFDMPrinter(int id, String printerName, String manufacturer, int maxX, int maxY, int maxZ, JSONArray currentSpools) {
         StandardFDM printer = new StandardFDM(id, printerName, manufacturer, maxX, maxY, maxZ);
         Spool cspool = getSpoolByID(((Long) currentSpools.get(0)).intValue());
@@ -47,6 +69,16 @@ public class PrinterManager {
         freePrinters.add(printer);
     }
 
+    /** Creates a new HousedPrinter based on given parameters and adds it to certain lists
+     *
+     * @param id the ID value of the Printer
+     * @param printerName the name of the Printer
+     * @param manufacturer the manufacturer of the Printer
+     * @param maxX the maxX value of the Printer
+     * @param maxY the maxY value of the Printer
+     * @param maxZ the maxZ value of the Printer
+     * @param currentSpools the currentSpools of the Printer
+     */
     private void addHousedPrinter(int id, String printerName, String manufacturer, int maxX, int maxY, int maxZ, JSONArray currentSpools) {
         HousedPrinter printer = new HousedPrinter(id, printerName, manufacturer, maxX, maxY, maxZ);
         Spool cspool = getSpoolByID(((Long) currentSpools.get(0)).intValue());
@@ -56,6 +88,17 @@ public class PrinterManager {
         freePrinters.add(printer);
     }
 
+    /** Creates a new MultiColor Printer based on given parameters and adds it to certain lists
+     *
+     * @param id the ID value of the Printer
+     * @param printerName the name of the Printer
+     * @param manufacturer the manufacturer of the Printer
+     * @param maxX the maxX value of the Printer
+     * @param maxY the maxY value of the Printer
+     * @param maxZ the maxZ value of the Printer
+     * @param maxColors the maximum colors of the Printer
+     * @param currentSpools the currentSpools of the Printer
+     */
     private void addMultiColorPrinter(int id, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors, JSONArray currentSpools) {
         MultiColor printer = new MultiColor(id, printerName, manufacturer, maxX, maxY, maxZ, maxColors);
         ArrayList<Spool> cspools = new ArrayList<>();
@@ -71,11 +114,17 @@ public class PrinterManager {
         freePrinters.add(printer);
     }
 
+    /** Checks if the color of a given spool matches the name
+     *
+     * @param list a list to search in
+     * @param name a name to compare to
+     * @return a list with all found matches
+     */
     public boolean containsSpool(final List<Spool> list, final String name){
         return list.stream().anyMatch(o -> o.getColor().equals(name));
     }
 
-    //TODO: How to break this entire method into smaller pieces?
+    //TODO: What does this method do? How to break it down?
     public void selectPrintTask(Printer printer) {
         Spool[] spools = printer.getCurrentSpools();
         PrintTask chosenTask = null;
@@ -188,22 +237,45 @@ public class PrinterManager {
         }
     }
 
+    //TODO: Make the PrinterFacade to this with a List given by the PrinterManager?
+    /** Loops through a List of Printers and selects a Print Task for every element */
     public void startInitialQueue() {
         for(Printer printer: printers) {
             selectPrintTask(printer);
         }
     }
 
+    /** Creates a new Print based on given parameters and adds it to a List of Prints
+     *
+     * @param name the name of the Print
+     * @param filename the filename of the Print
+     * @param height the height of the Print
+     * @param width the width of the Print
+     * @param length the length of the Print
+     * @param filamentLength the filamentLength of the Print
+     */
     public void addPrint(String name, String filename, int height, int width, int length, ArrayList<Integer> filamentLength) {
         Print p = new Print(name, filename, height, width, length, filamentLength);
         prints.add(p);
     }
 
+    /** Creates a new Print based on given parameters and adds it to a List of Prints
+     *
+     * @param id the ID value of the Spool
+     * @param color the Color of the Spool
+     * @param filamentType the FilamentType of the Spool
+     * @param length the length of the Spool
+     */
     public void addSpool(int id, String color, FilamentType filamentType, double length) {
         Spool s = new Spool(id, color, filamentType, length);
         spools.add(s);
     }
 
+    /** Gets the current Print Task of a given Printer
+     *
+     * @param printer the Printer to get the current Print Task of
+     * @return the Print Task value of the Printer index out of the HashMap
+     */
     public PrintTask getPrinterCurrentTask(Printer printer) {
         if(!runningPrintTasks.containsKey(printer)) {
             return null;
@@ -211,10 +283,20 @@ public class PrinterManager {
         return runningPrintTasks.get(printer);
     }
 
+    /** Gets a list of all pending Print Tasks
+     *
+     * @return the list of all pending Print Tasks
+     */
     public List<PrintTask> getPendingPrintTasks() {
         return pendingPrintTasks;
     }
 
+    /** Adds a Print Task based on given parameters
+     *
+     * @param printName the name of the Print to add to a Task
+     * @param colors the list of colors to be used
+     * @param type the FilamentType to be used
+     */
     public void addPrintTask(String printName, List<String> colors, FilamentType type) {
         Print print = findPrint(printName);
         if (print == null) {
@@ -246,6 +328,11 @@ public class PrinterManager {
         System.out.println("Added task to queue");
     }
 
+    /** Finds a Print based on a given name
+     *
+     * @param printName the name of the Print to look for
+     * @return the found Print
+     */
     public Print findPrint(String printName) {
         for (Print p : prints) {
             if (p.getName().equals(printName)) {
@@ -255,6 +342,11 @@ public class PrinterManager {
         return null;
     }
 
+    /** Finds a Print based on a given index
+     *
+     * @param index the index to look at
+     * @return the found Print
+     */
     public Print findPrint(int index) {
         if(index > prints.size() -1) {
             return null;
@@ -262,6 +354,11 @@ public class PrinterManager {
         return prints.get(index);
     }
 
+    /** Finds a Spool based on a given ID
+     *
+     * @param id the ID to look for
+     * @return the found Spool
+     */
     public Spool getSpoolByID(int id) {
         for(Spool s: spools) {
             if(s.getId() == id) {
@@ -270,6 +367,7 @@ public class PrinterManager {
         }
         return null;
     }
+
 
     //TODO: Make this register on observation?
     public void registerPrinterFailure(int printerId) {
@@ -332,6 +430,10 @@ public class PrinterManager {
 
     }
 
+    /** Prints an Error based on given String
+     *
+     * @param s the String to print
+     */
     private void printError(String s) {
         System.out.println("Error: "+s);
         System.out.println("Press Enter to continue");

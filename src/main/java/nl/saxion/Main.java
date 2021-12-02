@@ -20,35 +20,47 @@ public class Main {
     }
 
     public void run() {
+        //TODO: Move readers to individual class.
         readPrintsFromFile();
         readSpoolsFromFile();
         readPrintersFromFile();
         int choice = 1;
         while (choice > 0 && choice < 10) {
+            // Print menu
             menu();
             choice = Helper.menuChoice(9);
             if (choice == 1) {
+                // Add new Print Task
                 printerFacade.addNewPrintTask();
             } else if (choice == 2) {
+                // Regiser a completed Print
                 printerFacade.registerPrintCompletion();
             } else if (choice == 3) {
+                // Register a failed Print
                 printerFacade.registerPrinterFailure();
             } else if (choice == 4) {
+                // Change the current Print Strategy
                 printerFacade.changePrintStrategy();
             } else if (choice == 5) {
+                // Start the Print queue
                 printerFacade.startInitialQueue();
             } else if (choice == 6) {
+                // Display all available Prints
                 printerFacade.showItems("Available prints", "prints");
             } else if (choice == 7) {
+                // Display all available Printers
                 printerFacade.showItems("Available printers", "printers");
             } else if (choice == 8) {
+                // Display all Spools
                 printerFacade.showItems("Spools", "spools");
             } else if (choice == 9) {
+                // Display all pending Print Tasks
                 printerFacade.showItems("Pending Print Tasks", "pendingTasks");
             }
         }
     }
 
+    /** Prints menu with all available options for user to choose from **/
     public void menu() {
         System.out.println("Print Manager");
         System.out.println("=============");
@@ -64,7 +76,7 @@ public class Main {
         System.out.println("0) Exit");
     }
 
-    //TODO: Move to JSONReader Class
+    //TODO: Move reader to individual class.
     private void readPrintsFromFile() {
         JSONParser jsonParser = new JSONParser();
         URL printResource = getClass().getResource("/prints.json");
@@ -84,15 +96,9 @@ public class Main {
                 //int filamentLength = ((Long) print.get("filamentLength")).intValue();
                 JSONArray fLength = (JSONArray) print.get("filamentLength");
                 ArrayList<Integer> filamentLength = new ArrayList();
-//                for(int i = 0; i < fLength.size(); i++) {
-//                    filamentLength.add(((Long)fLength.get(i)).intValue());
-//                }
-                //TODO: Auto-changed for-loop
                 for (Object o : fLength) {
                     filamentLength.add(((Long) o).intValue());
                 }
-
-                //TODO: Moved this to Facade + Manager.
                 printerFacade.addPrint(name, filename, height, width, length, filamentLength);
             }
         } catch (IOException | ParseException e) {
@@ -100,7 +106,7 @@ public class Main {
         }
     }
 
-    //TODO: Move to JSONReader Class
+    //TODO: Move reader to individual class.
     private void readPrintersFromFile() {
         JSONParser jsonParser = new JSONParser();
         URL printersResource = getClass().getResource("/printers.json");
@@ -123,7 +129,6 @@ public class Main {
                 // TODO: Add current Spool
                 JSONArray currentSpools = (JSONArray) printer.get("currentSpools");
 
-                //TODO: Moved this to Facade + Manager.
                 printerFacade.addPrinter(id, type, name, manufacturer, maxX, maxY, maxZ, maxColors, currentSpools);
             }
         } catch (IOException | ParseException e) {
@@ -131,7 +136,7 @@ public class Main {
         }
     }
 
-    //TODO: Move to JSONReader Class
+    //TODO: Move reader to individual class.
     private void readSpoolsFromFile() {
         JSONParser jsonParser = new JSONParser();
         URL spoolsResource = getClass().getResource("/spools.json");
@@ -157,8 +162,6 @@ public class Main {
                         return;
                     }
                 }
-
-                //TODO: Moved this to Facade + Manager.
                 printerFacade.addSpool(id, color, type, length);
             }
         } catch (IOException | ParseException e) {
