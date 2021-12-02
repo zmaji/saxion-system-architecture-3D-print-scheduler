@@ -1,5 +1,6 @@
 package nl.saxion.Models.Facade;
 
+import nl.saxion.Helper;
 import nl.saxion.Models.Manager.PrinterManager;
 import nl.saxion.Models.Printers.Printer;
 import nl.saxion.Models.Prints.FilamentType;
@@ -28,6 +29,21 @@ public class PrinterFacade {
 //    public void registerPrinterFailure() {
 //        printerManager.registerPrinterFailure();
 //    }
+    public void addNewPrintTask() {
+        showItems("Available prints","prints");
+        System.out.print("Print number: ");
+        Print chosenPrint = findPrintOnInput();
+
+        showItems("Filament Type","filamentType");
+        System.out.print("Filament type number: ");
+        FilamentType chosenType = findFilamentTypeOnInput();
+
+        printAvailableSpools(chosenType);
+        System.out.print("Color number: ");
+        List<String> chosenColors = findColorsOnInput(chosenPrint);
+
+        addPrintTask(chosenPrint.getName(), chosenColors, chosenType);
+    }
 
     public Print findPrint(int printName) {
         return printerManager.findPrint(printName);
@@ -173,5 +189,56 @@ public class PrinterFacade {
     //TODO: Added a method that sets the Print Strategy
     public void setPrintStrategy(String strategy) {
         printerManager.setPrintStrategy(strategy);
+    }
+
+    private Print findPrintOnInput() {
+        List<Print> prints = getAvailablePrints();
+        int printNumber = Helper.numberInput(1, prints.size());
+        return findPrint(printNumber - 1);
+    }
+
+    private FilamentType findFilamentTypeOnInput() {
+        int filamentType = Helper.numberInput(1, 3);
+        FilamentType type = null;
+        switch (filamentType) {
+            case 1:
+                type = FilamentType.PLA;
+                break;
+            case 2:
+                type = FilamentType.PETG;
+                break;
+            case 3:
+                type = FilamentType.ABS;
+                break;
+            default:
+                System.out.println("Not a valid filamentType, bailing out");
+        }
+        return type;
+    }
+
+    private List<String> findColorsOnInput(Print print) {
+        List<String> colors = getAvailableColors();
+        int colorChoice = Helper.numberInput(1, colors.size()); // Keep in mind that 0, is starting entry for a list.
+        colors.add(colors.get(colorChoice-1));
+        for(int i = 1; i < print.getFilamentLength().size(); i++) {
+            System.out.print("Color number: ");
+            colorChoice = Helper.numberInput(1, colors.size());
+            colors.add(colors.get(colorChoice-1));
+        }
+        return colors;
+    }
+
+    public void showItems(String title, String type) {
+        System.out.println("-".repeat(10) + " " + title + " " + "-".repeat(10));
+
+        switch (type) {
+            case "spools" -> printAllSpools();
+            case "printers" -> printAllPrinters();
+            case "prints" -> printAvailablePrints();
+            case "pendingTasks" -> printAllPendingPrintTasks();
+            case "filamentType" -> printAvailableFilamentTypes();
+        }
+
+        System.out.println("-".repeat(25));
     }
 }
