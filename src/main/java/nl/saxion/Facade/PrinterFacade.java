@@ -1,7 +1,7 @@
-package nl.saxion.Models.Facade;
+package nl.saxion.Facade;
 
 import nl.saxion.Helper;
-import nl.saxion.Models.Manager.PrinterManager;
+import nl.saxion.Manager.PrinterManager;
 import nl.saxion.Models.Printers.Printer;
 import nl.saxion.Models.Prints.FilamentType;
 import nl.saxion.Models.Prints.Print;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class PrinterFacade {
 
-    private PrinterManager printerManager = new PrinterManager();
+    private final PrinterManager printerManager = new PrinterManager();
 
     public void startInitialQueue() {
         printerManager.startInitialQueue();
@@ -45,31 +45,46 @@ public class PrinterFacade {
         addPrintTask(chosenPrint.getName(), chosenColors, chosenType);
     }
 
+    // This method only changes the name but does not actually work.
+    // It exists to demonstrate the output.
+    // in the future strategy might be added.
+    // TODO: Changed getting and setting the Strategy from Facade + PrinterManager
+    public void changePrintStrategy() {
+        System.out.println("Current strategy: " + getPrintStrategy());
+        System.out.println("1: Less Spool Changes");
+        System.out.println("2: Efficient Spool Usage");
+        System.out.println("Choose strategy: ");
+        int strategyChoice = Helper.numberInput(1, 2);
+        String strategy = "";
+        if(strategyChoice == 1) {
+            strategy = "Less Spool Changes";
+        } else if( strategyChoice == 2) {
+            strategy = "Efficient Spool Usage";
+        }
+
+        printerManager.setPrintStrategy(strategy);
+    }
+
     public Print findPrint(int printName) {
         return printerManager.findPrint(printName);
     }
 
-    //TODO: Added method to add PrintTask.
     public void addPrintTask(String printName, List<String> colors, FilamentType chosenType) {
         printerManager.addPrintTask(printName, colors, chosenType);
     }
 
-    //TODO: Added method to add Printer.
     public void addPrinter(int id, int printerType, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors, JSONArray currentSpools) {
         printerManager.addPrinter(id, printerType, printerName, manufacturer, maxX, maxY, maxZ, maxColors, currentSpools);
     }
 
-    //TODO: Added method to add Spools.
     public void addSpool(int id, String color, FilamentType filamentType, double length) {
         printerManager.addSpool(id, color, filamentType, length);
     }
 
-    //TODO: Added method to add Prints.
     public void addPrint(String name, String filename, int height, int width, int length, ArrayList<Integer> filamentLength) {
         printerManager.addPrint(name, filename, height, width, length, filamentLength);
     }
 
-    //TODO: Added method to loop through all Filament Types and print them
     public void printAvailableFilamentTypes() {
         int counter = 1;
         for (FilamentType type : FilamentType.values()) {
@@ -78,22 +93,48 @@ public class PrinterFacade {
         }
     }
 
-    //TODO: Added method to loop through all Spools and print them. How to return the availableColors list???
     public void printAvailableSpools(FilamentType type) {
-        List<String> availableColors = printerManager.getAvailableColors();
+        List<String> availableColors = new ArrayList<>();
         List<Spool> spools = printerManager.getSpools();
         int counter = 1;
         for (var spool : spools) {
             String colorString = spool.getColor();
             if(type == spool.getFilamentType() && !availableColors.contains(colorString)) {
                 System.out.println(counter + ": " + colorString + " (" + spool.getFilamentType() + ")");
-                printerManager.addAvailableColor(colorString);
+                availableColors.add(colorString);
                 counter++;
             }
         }
     }
 
-    //TODO: Added a method that prints all Spools
+    private List<String> getAvailableColors(FilamentType type) {
+        List<String> availableColors = new ArrayList<>();
+        List<Spool> spools = printerManager.getSpools();
+        for (var spool : spools) {
+            String colorString = spool.getColor();
+            if(type == spool.getFilamentType() && !availableColors.contains(colorString)) {
+                availableColors.add(colorString);
+            }
+        }
+
+        return availableColors;
+    }
+
+    public void showItems(String title, String type) {
+        System.out.println("-".repeat(10) + " " + title + " " + "-".repeat(10));
+
+        switch (type) {
+            case "spools" -> printAllSpools();
+            case "printers" -> printAllPrinters();
+            case "prints" -> printAvailablePrints();
+            case "pendingTasks" -> printAllPendingPrintTasks();
+            case "filamentType" -> printAvailableFilamentTypes();
+            case "runningPrinters" -> printCurrentRunningPrinters();
+        }
+
+        System.out.println("-".repeat(25));
+    }
+
     public void printAllSpools() {
         List<Spool> spools =  printerManager.getSpools();
                 for (var spool : spools) {
@@ -101,7 +142,6 @@ public class PrinterFacade {
         }
     }
 
-    //TODO: Added a method that prints all available Prints
     public void printAvailablePrints() {
         List<Print> prints = printerManager.getAvailablePrints();
         int counter = 1;
@@ -111,7 +151,6 @@ public class PrinterFacade {
         }
     }
 
-    //TODO: Added a method that prints all pending PrintTasks
     public void printAllPendingPrintTasks() {
         List<PrintTask> printTasks = printerManager.getPendingPrintTasks();
                 for (var p : printTasks) {
@@ -119,7 +158,6 @@ public class PrinterFacade {
         }
     }
 
-    //TODO: Added a method that prints all available Printers
     public void printAllPrinters() {
         List<Printer> printers = printerManager.getPrinters();
                 for (var p : printers) {
@@ -132,10 +170,8 @@ public class PrinterFacade {
         }
     }
 
-    //TODO: Added a method that gets prints all currently running Printers
     public void printCurrentRunningPrinters() {
         List<Printer> printers = printerManager.getPrinters();
-        System.out.println("---------- Currently Running Printers ----------");
         for(Printer p: printers) {
             PrintTask printerCurrentTask= printerManager.getPrinterCurrentTask(p);
             if(printerCurrentTask != null) {
@@ -144,51 +180,42 @@ public class PrinterFacade {
         }
     }
 
-    //TODO: Added a method that registers completion. Currently not working correctly.
-    public void registerCompletion(int printerId) {
+    //TODO: Move function to register print failure in menu completely to being automatically updated by Observer?
+    public void registerPrintCompletion() {
+        showItems("Currently Running Printers", "runningPrinters");
+
+        System.out.print("Printer that is done (ID): ");
+        int printerId = Helper.numberInput(1, getCurrentlyRunningPrinters().size());
         printerManager.registerCompletion(printerId);
     }
 
-    //TODO: Added a method that registers failure. Currently not working correctly.
-    public void registerFailure(int printerId) {
+    //TODO: Move function to register print failure in menu completely to being automatically updated by Observer?
+    public void registerPrinterFailure() {
+        showItems("Currently Running Printers", "runningPrinters");
+
+        System.out.print("Printer ID that failed: ");
+        int printerId = Helper.numberInput(1, getCurrentlyRunningPrinters().size());
         printerManager.registerPrinterFailure(printerId);
     }
 
-    //TODO: Added a method that gets all currently running printers
     public List<Printer> getCurrentlyRunningPrinters() {
         List<Printer> printers = printerManager.getPrinters();
+        List<Printer> runningPrinters = new ArrayList<>();
         for (Printer p : printers) {
             PrintTask printerCurrentTask = printerManager.getPrinterCurrentTask(p);
             if (printerCurrentTask != null) {
-                printers.add(p);
+                runningPrinters.add(p);
             }
         }
-        return printers;
+        return runningPrinters;
     }
 
-    //TODO: Added a method that gets all available Colors
-    public List<String> getAvailableColors() {
-        return printerManager.getAvailableColors();
-    }
-
-    //TODO: Added a method that gets all available Prints
     public List<Print> getAvailablePrints() {
         return printerManager.getAvailablePrints();
     }
 
-    //TODO: Added a method that gets the Print Strategy
     public String getPrintStrategy() {
         return printerManager.getPrintStrategy();
-    }
-
-//    //TODO: Added a method that gets all Spools. Not currently needed.
-//    public List<Spool> getAllSpools() {
-//        return printerManager.getSpools();
-//    }
-
-    //TODO: Added a method that sets the Print Strategy
-    public void setPrintStrategy(String strategy) {
-        printerManager.setPrintStrategy(strategy);
     }
 
     private Print findPrintOnInput() {
@@ -201,62 +228,25 @@ public class PrinterFacade {
         int filamentType = Helper.numberInput(1, 3);
         FilamentType type = null;
         switch (filamentType) {
-            case 1:
-                type = FilamentType.PLA;
-                break;
-            case 2:
-                type = FilamentType.PETG;
-                break;
-            case 3:
-                type = FilamentType.ABS;
-                break;
-            default:
-                System.out.println("Not a valid filamentType, bailing out");
+            case 1 -> type = FilamentType.PLA;
+            case 2 -> type = FilamentType.PETG;
+            case 3 -> type = FilamentType.ABS;
+            default -> System.out.println("Not a valid filamentType, bailing out");
         }
         return type;
     }
 
     private List<String> findColorsOnInput(Print print, FilamentType type) {
         List<String> colors = new ArrayList<>();
-        List<String> availableColors = new ArrayList<>();
-
-        var counter = 1;
-        for (var spool : printerManager.getSpools()) {
-            String colorString = spool.getColor();
-            if(type == spool.getFilamentType() && !availableColors.contains(colorString)) {
-                availableColors.add(colorString);
-                counter++;
-            }
-        }
+        List<String> availableColors = getAvailableColors(type);
 
         int colorChoice = Helper.numberInput(1, availableColors.size()); // Keep in mind that 0, is starting entry for a list.
         colors.add(availableColors.get(colorChoice-1));
         for(int i = 1; i < print.getFilamentLength().size(); i++) {
             System.out.print("Color number: ");
-            colorChoice = Helper.numberInput(1, colors.size());
+            colorChoice = Helper.numberInput(1, availableColors.size());
             colors.add(availableColors.get(colorChoice-1));
         }
         return colors;
-
-        ////        int colorChoice = numberInput(1, availableColors.size());
-////        colors.add(availableColors.get(colorChoice-1));
-////        for(int i = 1; i < print.getFilamentLength().size(); i++) {
-////            System.out.print("Color number: ");
-////            colorChoice = numberInput(1, availableColors.size());
-////            colors.add(availableColors.get(colorChoice-1));
-    }
-
-    public void showItems(String title, String type) {
-        System.out.println("-".repeat(10) + " " + title + " " + "-".repeat(10));
-
-        switch (type) {
-            case "spools" -> printAllSpools();
-            case "printers" -> printAllPrinters();
-            case "prints" -> printAvailablePrints();
-            case "pendingTasks" -> printAllPendingPrintTasks();
-            case "filamentType" -> printAvailableFilamentTypes();
-        }
-
-        System.out.println("-".repeat(25));
     }
 }

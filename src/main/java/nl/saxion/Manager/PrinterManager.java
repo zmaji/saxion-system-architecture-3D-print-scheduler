@@ -1,4 +1,4 @@
-package nl.saxion.Models.Manager;
+package nl.saxion.Manager;
 
 import nl.saxion.Models.Printers.HousedPrinter;
 import nl.saxion.Models.Printers.MultiColor;
@@ -21,9 +21,6 @@ public class PrinterManager {
     private List<Printer> freePrinters = new ArrayList<>();
     private List<PrintTask> pendingPrintTasks = new ArrayList<>();
     private HashMap<Printer, PrintTask> runningPrintTasks = new HashMap();
-
-    //TODO: Added a List for availableColors, this is a temporary solution until we know how to fix this problem.
-    private List<String> availableColors = new ArrayList<>();
 
     //TODO: Added a Print Strategy. Changing through menu works, currently no Pattern implemented.
     private String printStrategy = "Less Spool Changes";
@@ -335,9 +332,9 @@ public class PrinterManager {
         new Scanner(System.in).nextLine();
     }
 
-    public void addAvailableColor(String colorString) {
-        availableColors.add(colorString);
-    }
+//    public void addAvailableColor(String colorString) {
+//        availableColors.add(colorString);
+//    }
 
     public String getPrintStrategy() {
         return printStrategy;
@@ -347,9 +344,9 @@ public class PrinterManager {
         return prints;
     }
 
-    public List<String> getAvailableColors() {
-        return availableColors;
-    }
+//    public List<String> getAvailableColors() {
+//        return availableColors;
+//    }
 
     public List<Spool> getSpools() {
         return spools;
