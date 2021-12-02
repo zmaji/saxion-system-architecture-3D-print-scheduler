@@ -149,18 +149,13 @@ public class Main {
                 double length = (Double) spool.get("length");
                 FilamentType type;
                 switch (filamentType) {
-                    case "PLA":
-                        type = FilamentType.PLA;
-                        break;
-                    case "PETG":
-                        type = FilamentType.PETG;
-                        break;
-                    case "ABS":
-                        type = FilamentType.ABS;
-                        break;
-                    default:
+                    case "PLA" -> type = FilamentType.PLA;
+                    case "PETG" -> type = FilamentType.PETG;
+                    case "ABS" -> type = FilamentType.ABS;
+                    default -> {
                         System.out.println("Not a valid filamentType, bailing out");
                         return;
+                    }
                 }
 
                 //TODO: Moved this to Facade + Manager.
