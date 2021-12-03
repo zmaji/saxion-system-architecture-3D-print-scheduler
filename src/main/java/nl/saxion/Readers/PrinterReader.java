@@ -1,4 +1,4 @@
-package nl.saxion.Readers;
+package nl.saxion.readers;
 
 import nl.saxion.Models.Printers.Printer;
 import org.json.simple.JSONArray;

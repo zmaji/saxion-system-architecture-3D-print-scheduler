@@ -16,15 +16,16 @@ public class MultiColor extends Printer {
 
     @Override
     public void setCurrentSpools(ArrayList<Spool> spools) {
+        this.spools = new Spool[spools.size()];
+        for (int i = 0; i < spools.size(); i++) {
+            this.spools[i] = spools.get(i);
+        }
         setCurrentSpool(spools.get(0));
-        if(spools.size() > 1) spool2 = spools.get(1);
-        if(spools.size() > 2) spool3 = spools.get(2);
-        if(spools.size() > 3) spool4 = spools.get(3);
     }
 
     @Override
     public void setCurrentSpool(Spool spool) {
-
+        this.currentSpool = spool;
     }
 
     @Override
@@ -39,11 +40,7 @@ public class MultiColor extends Printer {
 
     @Override
     public Spool[] getCurrentSpools() {
-        Spool[] spools = new Spool[4];
-        spools[0] = getCurrentSpool();
-        spools[1] = spool2;
-        spools[2] = spool3;
-        spools[3] = spool4;
+        Spool[] spools = this.spools;
         return spools;
     }
 
@@ -56,14 +53,8 @@ public class MultiColor extends Printer {
     public String toString() {
         String result = super.toString() +
                 "maxColors: " + maxColors + System.lineSeparator();
-        if(spool2 != null) {
-            result += "spool2: " + spool2.getId() + System.lineSeparator();
-        }
-        if(spool3 != null) {
-            result += "spool3: " + spool3.getId() + System.lineSeparator();
-        }
-        if(spool4 != null) {
-            result += "spool4: " + spool4.getId() + System.lineSeparator();
+        for (int i = 0; i < spools.length; i++) {
+            result += "spool "+ (i+1) +": " + spools[i].getId() + System.lineSeparator();
         }
         return result;
     }

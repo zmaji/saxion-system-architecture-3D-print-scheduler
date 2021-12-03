@@ -1,4 +1,4 @@
-package nl.saxion.Readers;
+package nl.saxion.readers;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,14 +6,14 @@ import nl.saxion.Models.Prints.Spool;
 import java.util.ArrayList;
 
 public abstract class Printer {
-    private int id;
-    private String name;
-    private String manufacturer;
-    private final int maxX;
-    private final int maxY;
-    private final int maxZ;
-    private Spool[] spools;
-    private Spool currentSpool;
+    protected int id;
+    protected String name;
+    protected String manufacturer;
+    protected final int maxX;
+    protected final int maxY;
+    protected final int maxZ;
+    protected Spool[] spools;
+    protected Spool currentSpool;
 
     public Printer(int id, String printerName, String manufacturer, int maxX, int maxY, int maxZ) {
         this.id = id;

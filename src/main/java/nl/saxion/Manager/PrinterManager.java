@@ -240,8 +240,6 @@ public class PrinterManager {
         }
 
         PrintTask task = new PrintTask(print, colors, type);
-        task.subscribeObserver(new PrintTaskCompletionObserver());
-        task.subscribeObserver(new PrintTaskFailureObserver());
         pendingPrintTasks.add(task);
         System.out.println("Added task to queue");
     }

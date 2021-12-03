@@ -1,4 +1,4 @@
-package nl.saxion.Models.Prints.State;
+package nl.saxion.Models.Prints.state;
 
 import nl.saxion.Models.Prints.PrintTask;
 
@@ -8,18 +8,7 @@ public class CompletedState extends PrintTaskState {
     }
 
     @Override
-    public void reqisterPending() {
-        System.out.println("PrintTask has already been completed");
-    }
-
-    @Override
-    public void registerCompletion() {
+    public void stateEnabled() {
         System.out.println("PrintTask has been completed successfully");
-        task.notifyObservers();
-    }
-
-    @Override
-    public void registerFailure() {
-        System.out.println("PrintTask has already been completed");
     }
 }

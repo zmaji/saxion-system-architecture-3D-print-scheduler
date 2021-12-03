@@ -1,4 +1,4 @@
-package nl.saxion.Models.Prints.State;
+package nl.saxion.Models.Prints.state;
 
 import nl.saxion.Models.Prints.PrintTask;
 
@@ -9,7 +9,6 @@ public abstract class PrintTaskState {
         this.task = task;
     }
 
-    public abstract void reqisterPending();
-    public abstract void registerCompletion();
-    public abstract void registerFailure();
+    // one function when state is enabled
+    public abstract void stateEnabled();
 }
