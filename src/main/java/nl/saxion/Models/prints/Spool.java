@@ -1,6 +1,4 @@
-package nl.saxion.Models.Prints;
-
-import nl.saxion.Models.Prints.FilamentType;
+package nl.saxion.Models.prints;
 
 public class Spool {
     private final int id;

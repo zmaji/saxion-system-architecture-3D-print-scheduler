@@ -1,6 +1,6 @@
-package nl.saxion.Models.Prints.state;
+package nl.saxion.Models.prints.state;
 
-import nl.saxion.Models.Prints.PrintTask;
+import nl.saxion.Models.prints.PrintTask;
 
 public abstract class PrintTaskState {
     protected final PrintTask task;

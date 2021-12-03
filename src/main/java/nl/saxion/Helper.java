@@ -6,6 +6,11 @@ import java.util.Scanner;
 public class Helper {
     private static final Scanner scanner = new Scanner(System.in);
 
+    /** Gives a printline based on certain given user input
+     *
+     * @param max maximum value for a user to choose from
+     * @return the value of the choice
+     */
     public static int menuChoice(int max) {
         int choice = -1;
         while (choice < 0 || choice > max) {

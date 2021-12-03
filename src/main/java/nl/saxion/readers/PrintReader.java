@@ -1,6 +1,6 @@
 package nl.saxion.readers;
 
-import nl.saxion.Models.Prints.Print;
+import nl.saxion.Models.prints.Print;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

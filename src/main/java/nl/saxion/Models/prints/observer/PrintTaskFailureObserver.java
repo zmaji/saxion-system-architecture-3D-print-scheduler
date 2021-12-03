@@ -1,6 +1,6 @@
-package nl.saxion.Models.Prints.Observer;
+package nl.saxion.Models.prints.observer;
 
-import nl.saxion.Models.Prints.PrintTask;
+import nl.saxion.Models.prints.PrintTask;
 
 public class PrintTaskFailureObserver implements PrintTaskObserver {
     @Override

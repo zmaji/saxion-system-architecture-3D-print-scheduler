@@ -1,4 +1,4 @@
-package nl.saxion.Models.Prints;
+package nl.saxion.Models.prints;
 
 public enum FilamentType {
     PLA, PETG, ABS
