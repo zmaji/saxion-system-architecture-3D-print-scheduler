@@ -1,7 +1,7 @@
 package nl.saxion;
 
-import nl.saxion.Facade.PrinterFacade;
-import nl.saxion.Models.Prints.FilamentType;
+import nl.saxion.models.facade.PrinterFacade;
+import nl.saxion.models.prints.FilamentType;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
