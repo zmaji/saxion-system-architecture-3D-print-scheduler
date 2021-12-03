@@ -1,8 +1,8 @@
-package nl.saxion.Models.prints;
+package nl.saxion.models.prints;
 
-import nl.saxion.Models.prints.observer.PrintTaskObserver;
-import nl.saxion.Models.prints.state.PendingState;
-import nl.saxion.Models.prints.state.PrintTaskState;
+import nl.saxion.models.prints.observer.PrintTaskObserver;
+import nl.saxion.models.prints.state.PendingState;
+import nl.saxion.models.prints.state.PrintTaskState;
 
 import java.util.ArrayList;
 import java.util.List;

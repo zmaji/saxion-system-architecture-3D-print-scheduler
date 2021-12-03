@@ -1,7 +1,7 @@
-package nl.saxion.Models.printers;
+package nl.saxion.models.printers;
 
-import nl.saxion.Models.prints.Print;
-import nl.saxion.Models.prints.Spool;
+import nl.saxion.models.prints.Print;
+import nl.saxion.models.prints.Spool;
 
 import java.util.ArrayList;
 

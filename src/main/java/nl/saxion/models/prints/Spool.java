@@ -1,4 +1,4 @@
-package nl.saxion.Models.prints;
+package nl.saxion.models.prints;
 
 public class Spool {
     private final int id;

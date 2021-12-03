@@ -1,7 +1,8 @@
-package nl.saxion.Models.printers;
+package nl.saxion.models.printers;
 
-import nl.saxion.Models.prints.Print;
-import nl.saxion.Models.prints.Spool;
+import nl.saxion.models.factory.PrinterFactory;
+import nl.saxion.models.prints.Print;
+import nl.saxion.models.prints.Spool;
 
 import java.util.ArrayList;
 
@@ -14,6 +15,8 @@ public abstract class Printer {
     protected final int maxZ;
     protected Spool[] spools;
     protected Spool currentSpool;
+
+    PrinterFactory printerFactory = new PrinterFactory();
 
     public Printer(int id, String printerName, String manufacturer, int maxX, int maxY, int maxZ) {
         this.id = id;
