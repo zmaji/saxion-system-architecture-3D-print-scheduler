@@ -11,6 +11,7 @@ import nl.saxion.models.prints.PrintTask;
 import nl.saxion.models.prints.Spool;
 import nl.saxion.models.readers.PrintReader;
 import nl.saxion.models.readers.PrinterReader;
+import nl.saxion.models.readers.ReaderException;
 import nl.saxion.models.readers.SpoolReader;
 import nl.saxion.models.strategies.LessSpoolChangeStrategy;
 import nl.saxion.models.strategies.PrintStrategy;
@@ -34,13 +35,10 @@ public class PrinterManager {
     private PrintReader printReader;
     private SpoolReader spoolReader;
 
-    public PrinterManager(PrinterReader printerReader, PrintReader printReader, SpoolReader spoolReader) {
-        this.printerReader = printerReader;
-        this.printReader = printReader;
-        this.spoolReader = spoolReader;
-    }
-
-    public PrinterManager() {
+    public PrinterManager() throws ReaderException {
+        printerReader.readPrintsFromFile();
+        printReader.readPrintsFromFile();
+        spoolReader.readPrintsFromFile();
     }
 
 //    /** Calls a certain method based on the printerType given in the parameters
