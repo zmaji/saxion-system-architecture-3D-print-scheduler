@@ -24,7 +24,7 @@ public class PrinterReader extends JSONReader<Printer> {
         JSONParser jsonParser = new JSONParser();
         URL printResource = getClass().getResource(source);
         if (printResource == null) {
-            throw new ReaderException("Warning: Could not find prints.json file");
+            throw new ReaderException("Warning: Could not find "+ source +" file");
         }
         try (FileReader reader = new FileReader(printResource.getFile())) {
             JSONArray printers = (JSONArray) jsonParser.parse(reader);
