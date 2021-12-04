@@ -1,20 +1,15 @@
 package nl.saxion.models.prints;
 
-import nl.saxion.models.prints.observer.PrintTaskObserver;
 import nl.saxion.models.prints.state.PendingState;
 import nl.saxion.models.prints.state.PrintTaskState;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class PrintTask {
     private Print print;
     private List<String> colors;
     private FilamentType filamentType;
     private PrintTaskState state;
-    private List<PrintTaskObserver> observers = new ArrayList<>();
-    private ReentrantLock lock = new ReentrantLock();
 
     public PrintTask(Print print, List<String> colors, FilamentType filamentType){
         this.print = print;
@@ -36,15 +31,15 @@ public class PrintTask {
     }
 
     public void setTaskPending() {
-//        this.state.reqisterPending();
+        this.state.stateEnabled();
     }
 
     public void completeTask() {
-//        this.state.registerCompletion();
+        this.state.stateEnabled();
     }
 
     public void failTask() {
-//        this.state.registerFailure();
+        this.state.stateEnabled();
     }
 
     public void setState(PrintTaskState state) {
