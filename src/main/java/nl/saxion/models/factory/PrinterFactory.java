@@ -13,6 +13,10 @@ public class PrinterFactory {
 
     PrinterManager printerManager;
 
+    public PrinterFactory(PrinterManager printerManager) {
+        this.printerManager = printerManager;
+    }
+
     public void createPrinter(int id, int printerType, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors, JSONArray currentSpools) {
         switch(printerType) {
             case 1 -> addStandardFDMPrinter(id, printerName, manufacturer, maxX, maxY, maxZ, currentSpools);

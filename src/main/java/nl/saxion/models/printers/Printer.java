@@ -16,8 +16,6 @@ public abstract class Printer {
     protected Spool[] spools;
     protected Spool currentSpool;
 
-    PrinterFactory printerFactory = new PrinterFactory();
-
     public Printer(int id, String printerName, String manufacturer, int maxX, int maxY, int maxZ) {
         this.id = id;
         this.name = printerName;

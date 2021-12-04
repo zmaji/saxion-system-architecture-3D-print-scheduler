@@ -25,7 +25,7 @@ public class PrinterManager {
     private HashMap<Printer, PrintTask> runningPrintTasks = new HashMap();
 
     private PrintStrategy printStrategy = new LessSpoolChangeStrategy();
-    private PrinterFactory printerFactory = new PrinterFactory();
+    private PrinterFactory printerFactory = new PrinterFactory(this);
 
     /** Calls a certain method based on the printerType given in the parameters
      *

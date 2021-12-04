@@ -1,6 +1,5 @@
 package nl.saxion.models.prints;
 
-import nl.saxion.models.prints.observer.PrintTaskObserver;
 import nl.saxion.models.prints.state.PendingState;
 import nl.saxion.models.prints.state.PrintTaskState;
 
@@ -13,7 +12,6 @@ public class PrintTask {
     private List<String> colors;
     private FilamentType filamentType;
     private PrintTaskState state;
-    private List<PrintTaskObserver> observers = new ArrayList<>();
     private ReentrantLock lock = new ReentrantLock();
 
     public PrintTask(Print print, List<String> colors, FilamentType filamentType){
