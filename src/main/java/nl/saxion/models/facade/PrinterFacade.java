@@ -85,7 +85,7 @@ public class PrinterFacade {
         printerManager.setPrintStrategy(strategy);
     }
 
-    //TODO: Only used in Reader, could potentially be directly used from PrinterManager
+    //TODO: Only used in Reader, could potentially be directly used from PrinterManager!!
     /**
      * Uses the PrinterManager to add a Printer based on given parameters
      *
@@ -103,7 +103,7 @@ public class PrinterFacade {
         printerManager.addPrinter(id, printerType, printerName, manufacturer, maxX, maxY, maxZ, maxColors, currentSpools);
     }
 
-    //TODO: Only used in Reader, could potentially be directly used from PrinterManager
+    //TODO: Only used in Reader, could potentially be directly used from PrinterManager!!
     /**
      * Uses the PrinterManager to add a Spool based on given parameters
      *
@@ -112,6 +112,7 @@ public class PrinterFacade {
      * @param filamentType the FilamentType of the Spool
      * @param length the length of the Spool
      */
+
     public void addSpool(int id, String color, FilamentType filamentType, double length) {
         printerManager.addSpool(id, color, filamentType, length);
     }
@@ -127,6 +128,7 @@ public class PrinterFacade {
      * @param length the length of the Print
      * @param filamentLength the filamentLength of the Print
      */
+
     public void addPrint(String name, String filename, int height, int width, int length, ArrayList<Integer> filamentLength) {
         printerManager.addPrint(name, filename, height, width, length, filamentLength);
     }
@@ -136,6 +138,7 @@ public class PrinterFacade {
      * @param type the FilamentType to get the available colors of
      * @return List of available colors
      */
+
     private List<String> getAvailableColors(FilamentType type) {
         List<String> availableColors = new ArrayList<>();
         List<Spool> spools = printerManager.getSpools();
