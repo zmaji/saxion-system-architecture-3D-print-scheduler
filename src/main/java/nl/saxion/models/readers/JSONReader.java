@@ -11,5 +11,5 @@ abstract public class JSONReader<T> {
         this.source = source;
     }
 
-    public abstract List<T> readPrintsFromFile() throws ReaderException;
+    public abstract void readPrintsFromFile() throws ReaderException;
 }

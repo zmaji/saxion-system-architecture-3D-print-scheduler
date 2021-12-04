@@ -18,12 +18,12 @@ public class PrinterFactory {
     }
 
     public void createPrinter(int id, int printerType, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors, JSONArray currentSpools) {
-        switch(printerType) {
-            case 1 -> addStandardFDMPrinter(id, printerName, manufacturer, maxX, maxY, maxZ, currentSpools);
-            case 2 -> addHousedPrinter(id, printerName, manufacturer, maxX, maxY, maxZ, currentSpools);
-            case 3 -> addMultiColorPrinter(id, printerName, manufacturer, maxX, maxY, maxZ, maxColors, currentSpools);
+            switch(printerType) {
+                case 1 -> addStandardFDMPrinter(id, printerName, manufacturer, maxX, maxY, maxZ, currentSpools);
+                case 2 -> addHousedPrinter(id, printerName, manufacturer, maxX, maxY, maxZ, currentSpools);
+                case 3 -> addMultiColorPrinter(id, printerName, manufacturer, maxX, maxY, maxZ, maxColors, currentSpools);
+            }
         }
-    }
 
     /** Creates a new StandardFDM Printer based on given parameters and adds it to certain lists
      *  @param id the ID value of the Printer
@@ -85,4 +85,5 @@ public class PrinterFactory {
         this.printerManager.addToPrinters(printer);
         this.printerManager.addFreePrinter(printer);
     }
+
 }

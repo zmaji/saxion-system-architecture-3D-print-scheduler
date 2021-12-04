@@ -1,11 +1,14 @@
 package nl.saxion.models.readers;
 
+import nl.saxion.models.factory.PrintFactory;
+import nl.saxion.models.factory.PrinterFactory;
 import nl.saxion.models.prints.Print;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
@@ -13,16 +16,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PrintReader extends JSONReader<Print> {
-    public PrintReader(String source) {
+
+    PrintFactory printFactory;
+
+    public PrintReader(String source, PrintFactory printFactory) {
         super(source);
+        this.printFactory = printFactory;
     }
 
     @Override
-    public List<Print> readPrintsFromFile() throws ReaderException {
+    public void readPrintsFromFile() throws ReaderException {
         JSONParser jsonParser = new JSONParser();
         URL printResource = getClass().getResource(source);
         if (printResource == null) {
-            throw new ReaderException("Warning: Could not find "+ source +" file");
+            throw new ReaderException("Warning: Could not find " + source + " file");
         }
         try (FileReader reader = new FileReader(printResource.getFile())) {
             JSONArray prints = (JSONArray) jsonParser.parse(reader);
@@ -39,15 +46,19 @@ public class PrintReader extends JSONReader<Print> {
                 for (Object o : fLength) {
                     filamentLength.add(((Long) o).intValue());
                 }
+                printFactory.createPrint(name, filename, height, width, length, filamentLength);
                 this.readItems.add(new Print(name, filename, height, width, length, filamentLength));
             }
 
-            return readItems;
+//            return readItems;
+//        } catch (IOException | ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return null;
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
 
-        return null;
     }
-
 }

@@ -9,6 +9,9 @@ import nl.saxion.models.prints.FilamentType;
 import nl.saxion.models.prints.Print;
 import nl.saxion.models.prints.PrintTask;
 import nl.saxion.models.prints.Spool;
+import nl.saxion.models.readers.PrintReader;
+import nl.saxion.models.readers.PrinterReader;
+import nl.saxion.models.readers.SpoolReader;
 import nl.saxion.models.strategies.LessSpoolChangeStrategy;
 import nl.saxion.models.strategies.PrintStrategy;
 import org.json.simple.JSONArray;
@@ -27,21 +30,35 @@ public class PrinterManager {
     private PrintStrategy printStrategy = new LessSpoolChangeStrategy();
     private PrinterFactory printerFactory = new PrinterFactory(this);
 
-    /** Calls a certain method based on the printerType given in the parameters
-     *
-     * @param id the ID value of the Printer
-     * @param printerType the Type value of the Printer
-     * @param printerName the name of the Printer
-     * @param manufacturer the manufacturer of the Printer
-     * @param maxX the maxX value of the Printer
-     * @param maxY the maxY value of the Printer
-     * @param maxZ the maxZ value of the Printer
-     * @param maxColors the maximum colors of the Printer
-     * @param currentSpools the currentSpools of the Printer
-     */
-    public void addPrinter(int id, int printerType, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors, JSONArray currentSpools) {
-        printerFactory.createPrinter(id, printerType, printerName, manufacturer, maxX, maxY, maxZ, maxColors, currentSpools);
+    private PrinterReader printerReader;
+    private PrintReader printReader;
+    private SpoolReader spoolReader;
+
+    public PrinterManager(PrinterReader printerReader, PrintReader printReader, SpoolReader spoolReader) {
+        this.printerReader = printerReader;
+        this.printReader = printReader;
+        this.spoolReader = spoolReader;
     }
+
+    public PrinterManager() {
+    }
+
+//    /** Calls a certain method based on the printerType given in the parameters
+//     *
+//     * @param id the ID value of the Printer
+//     * @param printerType the Type value of the Printer
+//     * @param printerName the name of the Printer
+//     * @param manufacturer the manufacturer of the Printer
+//     * @param maxX the maxX value of the Printer
+//     * @param maxY the maxY value of the Printer
+//     * @param maxZ the maxZ value of the Printer
+//     * @param maxColors the maximum colors of the Printer
+//     * @param currentSpools the currentSpools of the Printer
+//     */
+//
+//    public void addPrinter(int id, int printerType, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors, JSONArray currentSpools) {
+//        printerFactory.createPrinter(id, printerType, printerName, manufacturer, maxX, maxY, maxZ, maxColors, currentSpools);
+//    }
 
     /** Checks if the color of a given spool matches the name
      *
@@ -188,16 +205,12 @@ public class PrinterManager {
         prints.add(p);
     }
 
-    /** Creates a new Print based on given parameters and adds it to a List of Prints
-     *
-     * @param id the ID value of the Spool
-     * @param color the Color of the Spool
-     * @param filamentType the FilamentType of the Spool
-     * @param length the length of the Spool
-     */
-    public void addSpool(int id, String color, FilamentType filamentType, double length) {
-        Spool s = new Spool(id, color, filamentType, length);
-        spools.add(s);
+    public void addToPrintList(Print print) {
+        prints.add(print);
+    }
+
+    public void addSpool(Spool spool) {
+        spools.add(spool);
     }
 
     /** Gets the current Print Task of a given Printer

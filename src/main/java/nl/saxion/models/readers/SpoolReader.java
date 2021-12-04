@@ -1,5 +1,6 @@
 package nl.saxion.models.readers;
 
+import nl.saxion.models.factory.SpoolFactory;
 import nl.saxion.models.prints.FilamentType;
 import nl.saxion.models.prints.Print;
 import nl.saxion.models.prints.Spool;
@@ -8,6 +9,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
@@ -15,16 +17,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SpoolReader extends JSONReader<Spool> {
-    public SpoolReader(String source) {
+
+    SpoolFactory spoolFactory;
+
+    public SpoolReader(String source, SpoolFactory spoolFactory) {
         super(source);
+        this.spoolFactory = spoolFactory;
     }
 
     @Override
-    public List<Spool> readPrintsFromFile() throws ReaderException {
+    public void readPrintsFromFile() throws ReaderException {
         JSONParser jsonParser = new JSONParser();
         URL printResource = getClass().getResource(source);
         if (printResource == null) {
-            throw new ReaderException("Warning: Could not find "+ source +" file");
+            throw new ReaderException("Warning: Could not find " + source + " file");
         }
         try (FileReader reader = new FileReader(printResource.getFile())) {
             JSONArray spools = (JSONArray) jsonParser.parse(reader);
@@ -41,17 +47,19 @@ public class SpoolReader extends JSONReader<Spool> {
                     case "ABS" -> type = FilamentType.ABS;
                     default -> {
                         System.err.println("Not a valid filamentType, bailing out");
-                        return null;
                     }
                 }
-                this.readItems.add(new Spool(id, color, type, length));
+                spoolFactory.createSpool(id, color, type, length);
             }
 
-            return readItems;
+//            return readItems;
+//        } catch (IOException | ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return null;
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
-
-        return null;
     }
 }
