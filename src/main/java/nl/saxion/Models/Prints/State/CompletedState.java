@@ -1,6 +1,6 @@
-package nl.saxion.Models.Prints.state;
+package nl.saxion.models.prints.state;
 
-import nl.saxion.Models.Prints.PrintTask;
+import nl.saxion.models.prints.PrintTask;
 
 public class CompletedState extends PrintTaskState {
     public CompletedState(PrintTask task) {

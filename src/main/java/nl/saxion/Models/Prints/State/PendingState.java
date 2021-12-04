@@ -1,6 +1,6 @@
-package nl.saxion.Models.Prints.state;
+package nl.saxion.models.prints.state;
 
-import nl.saxion.Models.Prints.PrintTask;
+import nl.saxion.models.prints.PrintTask;
 
 public class PendingState extends PrintTaskState {
     public PendingState(PrintTask task) {

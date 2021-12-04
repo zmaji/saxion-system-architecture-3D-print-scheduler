@@ -1,6 +1,9 @@
 package nl.saxion.models.readers;
 
+import nl.saxion.models.printers.HousedPrinter;
+import nl.saxion.models.printers.MultiColor;
 import nl.saxion.models.printers.Printer;
+import nl.saxion.models.printers.StandardFDM;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -37,6 +40,16 @@ public class PrinterReader extends JSONReader<Printer> {
                 int maxColors = ((Long) printer.get("maxColors")).intValue();
                 // TODO: Add current Spool
                 JSONArray currentSpools = (JSONArray) printer.get("currentSpools");
+                Printer readPrinter;
+                switch(type) {
+                    case 1 -> readPrinter = new StandardFDM(id, name, manufacturer, maxX, maxY, maxZ);
+                    case 2 -> readPrinter = new HousedPrinter(id, name, manufacturer, maxX, maxY, maxZ);
+                    case 3 -> readPrinter = new MultiColor(id, name, manufacturer, maxX, maxY, maxZ, maxColors);
+                    default -> throw new IllegalStateException("Unexpected value: " + type);
+                }
+
+//                readPrinter.setCurrentSpool(currentSpools);
+                this.readItems.add(readPrinter);
 //                this.readItems.add(new Printe(id, type, name, manufacturer, maxX, maxY, maxZ, maxColors, currentSpools));
             }
 

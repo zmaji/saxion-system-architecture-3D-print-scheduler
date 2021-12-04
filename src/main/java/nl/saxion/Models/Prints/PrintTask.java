@@ -1,10 +1,8 @@
-package nl.saxion.Models.Prints;
+package nl.saxion.models.prints;
 
-import nl.saxion.Models.Prints.Observer.PrintTaskObserver;
-import nl.saxion.Models.Prints.state.CompletedState;
-import nl.saxion.Models.Prints.state.FailedState;
-import nl.saxion.Models.Prints.state.PendingState;
-import nl.saxion.Models.Prints.state.PrintTaskState;
+import nl.saxion.models.prints.observer.PrintTaskObserver;
+import nl.saxion.models.prints.state.PendingState;
+import nl.saxion.models.prints.state.PrintTaskState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,15 +36,15 @@ public class PrintTask {
     }
 
     public void setTaskPending() {
-        this.state.reqisterPending();
+//        this.state.reqisterPending();
     }
 
     public void completeTask() {
-        this.state.registerCompletion();
+//        this.state.registerCompletion();
     }
 
     public void failTask() {
-        this.state.registerFailure();
+//        this.state.registerFailure();
     }
 
     public void setState(PrintTaskState state) {
