@@ -14,6 +14,7 @@ import java.util.*;
 
 public class Main {
     private final PrinterFacade printerFacade = new PrinterFacade();
+    Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         new Main().run();
@@ -28,7 +29,7 @@ public class Main {
         while (choice > 0 && choice < 10) {
             // Print menu
             menu();
-            choice = Helper.menuChoice(9);
+            choice = menuChoice(9);
             if (choice == 1) {
                 // Add new Print Task
                 printerFacade.addNewPrintTask();
@@ -74,6 +75,26 @@ public class Main {
         System.out.println("8) Show spools");
         System.out.println("9) Show pending print tasks");
         System.out.println("0) Exit");
+    }
+
+    /** Gives a printline based on certain given user input
+     *
+     * @param max maximum value for a user to choose from
+     * @return the value of the choice
+     */
+    public int menuChoice(int max) {
+        int choice = -1;
+        while (choice < 0 || choice > max) {
+            System.out.print("Choose an option: ");
+            try {
+                choice = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                //try again after consuming the current line
+                System.out.println("Error: Invalid input");
+                scanner.nextLine();
+            }
+        }
+        return choice;
     }
 
 //    //TODO: Move reader to individual class.

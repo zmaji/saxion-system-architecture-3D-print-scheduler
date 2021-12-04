@@ -13,22 +13,18 @@ public class StandardFDM extends Printer {
         super(id, printerName, manufacturer, maxX, maxY, maxZ);
     }
 
-    @Override
     public void setCurrentSpools(ArrayList<Spool> spools) {
         this.currentSpool = spools.get(0);
     }
 
-    @Override
     public void setCurrentSpool(Spool spool) {
         this.currentSpool = spool;
     }
 
-    @Override
     public Spool getCurrentSpool() {
         return currentSpool;
     }
 
-    @Override
     public Spool[] getCurrentSpools() {
         Spool[] spools = new Spool[1];
         spools[0] = currentSpool;
@@ -47,10 +43,7 @@ public class StandardFDM extends Printer {
 
     @Override
     public String toString() {
-        String result = super.toString() +
-                "maxX: " + maxX + System.lineSeparator() +
-                "maxY: " + maxY + System.lineSeparator() +
-                "maxZ: " + maxZ + System.lineSeparator();
+        String result = super.toString();
         if (currentSpool != null) {
             result += "Current spool: " + currentSpool.getId()+ System.lineSeparator();
         }

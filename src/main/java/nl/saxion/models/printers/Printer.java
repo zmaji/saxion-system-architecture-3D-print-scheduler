@@ -45,7 +45,10 @@ public abstract class Printer {
     public String toString() {
         return  "ID: " + id + System.lineSeparator() +
                 "Name: " + name + System.lineSeparator() +
-                "Manufacturer: " + manufacturer + System.lineSeparator();
+                "Manufacturer: " + manufacturer + System.lineSeparator() +
+                "maxX: " + maxX + System.lineSeparator() +
+                "maxY: " + maxY + System.lineSeparator() +
+                "maxZ: " + maxZ + System.lineSeparator();
     }
 
     public String getName(){

@@ -40,7 +40,7 @@ public class SpoolReader extends JSONReader<Spool> {
                 String color = (String) spool.get("color");
                 String filamentType = (String) spool.get("filamentType");
                 double length = (Double) spool.get("length");
-                FilamentType type;
+                FilamentType type = null;
                 switch (filamentType) {
                     case "PLA" -> type = FilamentType.PLA;
                     case "PETG" -> type = FilamentType.PETG;

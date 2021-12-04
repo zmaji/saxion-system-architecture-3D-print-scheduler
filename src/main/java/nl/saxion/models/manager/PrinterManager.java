@@ -1,6 +1,8 @@
 package nl.saxion.models.manager;
 
+import nl.saxion.models.factory.PrintFactory;
 import nl.saxion.models.factory.PrinterFactory;
+import nl.saxion.models.factory.SpoolFactory;
 import nl.saxion.models.printers.HousedPrinter;
 import nl.saxion.models.printers.MultiColor;
 import nl.saxion.models.printers.Printer;
@@ -30,15 +32,24 @@ public class PrinterManager {
 
     private PrintStrategy printStrategy = new LessSpoolChangeStrategy();
     private PrinterFactory printerFactory = new PrinterFactory(this);
+    private PrintFactory printFactory = new PrintFactory(this);
+    private SpoolFactory spoolFactory = new SpoolFactory(this);
 
     private PrinterReader printerReader;
     private PrintReader printReader;
     private SpoolReader spoolReader;
 
-    public PrinterManager() throws ReaderException {
-        printerReader.readPrintsFromFile();
-        printReader.readPrintsFromFile();
-        spoolReader.readPrintsFromFile();
+    public PrinterManager() {
+        this.printReader = new PrintReader("/prints.json", this.printFactory);
+        this.spoolReader = new SpoolReader("/spools.json", this.spoolFactory);
+        this.printerReader = new PrinterReader("/printers.json", this.printerFactory);
+        try {
+            printReader.readPrintsFromFile();
+            spoolReader.readPrintsFromFile();
+            printerReader.readPrintsFromFile();
+        } catch (ReaderException e) {
+            e.printStackTrace();
+        }
     }
 
 //    /** Calls a certain method based on the printerType given in the parameters
