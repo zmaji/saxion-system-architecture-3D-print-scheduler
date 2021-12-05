@@ -55,7 +55,7 @@ public class MultiColor extends Printer {
                 "maxColors: " + maxColors + System.lineSeparator();
         for (int i = 0; i < spools.length; i++) {
             if (spools[i] != currentSpool) {
-                result += "spool "+ (i+1) +": " + spools[i].getId() + System.lineSeparator();
+                result += "spool"+ (i+1) +": " + spools[i].getId() + System.lineSeparator();
             }
         }
         return result;

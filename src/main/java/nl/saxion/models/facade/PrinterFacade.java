@@ -37,13 +37,14 @@ public class PrinterFacade {
         switch (type) {
             case "spools" -> displayManager.printAllSpools();
             case "printers" -> displayManager.printAllPrinters();
+            case "detailedPrints" ->displayManager. printAllPrintsFull();
             case "prints" ->displayManager. printAvailablePrints();
             case "pendingTasks" -> displayManager.printAllPendingPrintTasks();
             case "filamentType" -> displayManager.printAvailableFilamentTypes();
             case "runningPrinters" -> displayManager.printCurrentRunningPrinters();
         }
 
-        System.out.println("-".repeat(25));
+        System.out.println("-".repeat(22+title.length()));
     }
 
     /** Asks user for input to give PrinterManager three arguments to add a PrintTask: Print, FilamentType and a List of colors */

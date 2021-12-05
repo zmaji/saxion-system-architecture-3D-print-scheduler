@@ -43,6 +43,14 @@ public class DisplayManager {
     }
 
     /** Prints all available Prints based on a List that is kept by PrinterManager */
+    public void printAllPrintsFull() {
+        List<Print> prints = printerManager.getAvailablePrints();
+        for (var p : prints) {
+            System.out.println(p.toString());
+        }
+    }
+
+    /** Prints all available Prints based on a List that is kept by PrinterManager */
     public void printAvailablePrints() {
         List<Print> prints = printerManager.getAvailablePrints();
         int counter = 1;

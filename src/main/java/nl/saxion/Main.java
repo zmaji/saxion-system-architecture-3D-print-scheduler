@@ -47,7 +47,7 @@ public class Main {
                 printerFacade.startInitialQueue();
             } else if (choice == 6) {
                 // Display all available Prints
-                printerFacade.showItems("Available prints", "prints");
+                printerFacade.showItems("Available prints", "detailedPrints");
             } else if (choice == 7) {
                 // Display all available Printers
                 printerFacade.showItems("Available printers", "printers");
