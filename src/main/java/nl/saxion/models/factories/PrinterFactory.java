@@ -17,6 +17,18 @@ public class PrinterFactory {
         this.printerManager = printerManager;
     }
 
+    /** Calls a method based on printerType given from a Reader Class
+     *
+     * @param id the ID value of the Printer
+     * @param printerType the Type value of the Printer
+     * @param printerName the name of the Printer
+     * @param manufacturer the manufacturer of the Printer
+     * @param maxX the maxX value of the Printer
+     * @param maxY the maxY value of the Printer
+     * @param maxZ the maxZ value of the Printer
+     * @param maxColors the maximum colors of the Printer
+     * @param currentSpools the List of currentSpools of the Printer
+     */
     public void createPrinter(int id, int printerType, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors, JSONArray currentSpools) {
         switch(printerType) {
             case 1 -> addStandardFDMPrinter(id, printerName, manufacturer, maxX, maxY, maxZ, currentSpools);
