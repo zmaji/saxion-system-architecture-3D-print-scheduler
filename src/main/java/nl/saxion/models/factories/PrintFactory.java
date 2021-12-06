@@ -1,9 +1,7 @@
-package nl.saxion.models.factory;
+package nl.saxion.models.factories;
 
 import nl.saxion.models.manager.PrinterManager;
-import nl.saxion.models.prints.FilamentType;
 import nl.saxion.models.prints.Print;
-import nl.saxion.models.prints.Spool;
 
 import java.util.ArrayList;
 

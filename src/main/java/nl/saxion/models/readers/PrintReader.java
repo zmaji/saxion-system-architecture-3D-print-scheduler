@@ -1,19 +1,16 @@
 package nl.saxion.models.readers;
 
-import nl.saxion.models.factory.PrintFactory;
-import nl.saxion.models.factory.PrinterFactory;
+import nl.saxion.models.factories.PrintFactory;
 import nl.saxion.models.prints.Print;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PrintReader extends JSONReader<Print> {
 

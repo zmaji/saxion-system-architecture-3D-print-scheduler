@@ -86,54 +86,6 @@ public class PrinterFacade {
         printerManager.setPrintStrategy(strategy);
     }
 
-//    //TODO: Only used in Reader, could potentially be directly used from PrinterManager!!
-//    /**
-//     * Uses the PrinterManager to add a Printer based on given parameters
-//     *
-//     * @param id the ID value of the Printer
-//     * @param printerType the Type value of the Printer
-//     * @param printerName the name of the Printer
-//     * @param manufacturer the manufacturer of the Printer
-//     * @param maxX the maxX value of the Printer
-//     * @param maxY the maxY value of the Printer
-//     * @param maxZ the maxZ value of the Printer
-//     * @param maxColors the maximum colors of the Printer
-//     * @param currentSpools the currentSpools of the Printer
-//     */
-//    public void addPrinter(int id, int printerType, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors, JSONArray currentSpools) {
-//        printerManager.addPrinter(id, printerType, printerName, manufacturer, maxX, maxY, maxZ, maxColors, currentSpools);
-//    }
-
-//    //TODO: Only used in Reader, could potentially be directly used from PrinterManager!!
-//    /**
-//     * Uses the PrinterManager to add a Spool based on given parameters
-//     *
-//     * @param id the ID value of the Spool
-//     * @param color the Color of the Spool
-//     * @param filamentType the FilamentType of the Spool
-//     * @param length the length of the Spool
-//     */
-//
-//    public void addSpool(int id, String color, FilamentType filamentType, double length) {
-//        printerManager.addSpool(id, color, filamentType, length);
-//    }
-
-//    //TODO: Only used in Reader, could potentially be directly used from PrinterManager
-//    /**
-//     * Uses the PrinterManager to add a Print based on given parameters
-//     *
-//     * @param name the name of the Print
-//     * @param filename the filename of the Print
-//     * @param height the height of the Print
-//     * @param width the width of the Print
-//     * @param length the length of the Print
-//     * @param filamentLength the filamentLength of the Print
-//     */
-//
-//    public void addPrint(String name, String filename, int height, int width, int length, ArrayList<Integer> filamentLength) {
-//        printerManager.addPrint(name, filename, height, width, length, filamentLength);
-//    }
-
     /** Gets all available colors based on a given Filament Type
      *
      * @param type the FilamentType to get the available colors of

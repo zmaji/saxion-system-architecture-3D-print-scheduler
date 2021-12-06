@@ -1,8 +1,8 @@
 package nl.saxion.models.manager;
 
-import nl.saxion.models.factory.PrintFactory;
-import nl.saxion.models.factory.PrinterFactory;
-import nl.saxion.models.factory.SpoolFactory;
+import nl.saxion.models.factories.PrintFactory;
+import nl.saxion.models.factories.PrinterFactory;
+import nl.saxion.models.factories.SpoolFactory;
 import nl.saxion.models.printers.HousedPrinter;
 import nl.saxion.models.printers.MultiColor;
 import nl.saxion.models.printers.Printer;
@@ -17,7 +17,7 @@ import nl.saxion.models.readers.ReaderException;
 import nl.saxion.models.readers.SpoolReader;
 import nl.saxion.models.strategies.LessSpoolChangeStrategy;
 import nl.saxion.models.strategies.PrintStrategy;
-import org.json.simple.JSONArray;
+
 import java.util.*;
 
 public class PrinterManager {

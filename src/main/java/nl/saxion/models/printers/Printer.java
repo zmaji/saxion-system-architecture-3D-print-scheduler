@@ -1,6 +1,5 @@
 package nl.saxion.models.printers;
 
-import nl.saxion.models.factory.PrinterFactory;
 import nl.saxion.models.prints.Print;
 import nl.saxion.models.prints.Spool;
 
