@@ -21,7 +21,7 @@ public class PrinterReader extends JSONReader<Printer> {
     }
 
     @Override
-    public void readPrintsFromFile() throws ReaderException {
+    public void readItems() throws ReaderException {
         JSONParser jsonParser = new JSONParser();
         URL printResource = getClass().getResource(source);
         if (printResource == null) {
@@ -44,7 +44,6 @@ public class PrinterReader extends JSONReader<Printer> {
 
                 printerFactory.createPrinter(id, type, name, manufacturer, maxX, maxY, maxZ, maxColors, currentSpools);
             }
-
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }

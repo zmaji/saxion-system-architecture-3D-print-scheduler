@@ -74,11 +74,11 @@ public class Main {
         while (choice < 0 || choice > max) {
             System.out.print("Choose an option: ");
             try {
-                choice = scanner.nextInt();
+                choice = Helper.getScanner().nextInt();
             } catch (InputMismatchException e) {
                 //try again after consuming the current line
                 System.out.println("Error: Invalid input");
-                scanner.nextLine();
+                Helper.getScanner().nextLine();
             }
         }
         return choice;

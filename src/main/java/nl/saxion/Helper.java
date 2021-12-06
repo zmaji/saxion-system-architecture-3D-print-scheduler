@@ -45,4 +45,8 @@ public class Helper {
         }
         return input;
     }
+
+    public static Scanner getScanner() {
+        return scanner;
+    }
 }

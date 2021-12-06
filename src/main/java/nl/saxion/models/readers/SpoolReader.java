@@ -22,7 +22,7 @@ public class SpoolReader extends JSONReader<Spool> {
     }
 
     @Override
-    public void readPrintsFromFile() throws ReaderException {
+    public void readItems() throws ReaderException {
         JSONParser jsonParser = new JSONParser();
         URL printResource = getClass().getResource(source);
         if (printResource == null) {
@@ -47,13 +47,6 @@ public class SpoolReader extends JSONReader<Spool> {
                 }
                 spoolFactory.createSpool(id, color, type, length);
             }
-
-//            return readItems;
-//        } catch (IOException | ParseException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return null;
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }

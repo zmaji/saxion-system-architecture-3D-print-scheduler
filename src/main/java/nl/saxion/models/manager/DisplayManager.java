@@ -31,6 +31,8 @@ public class DisplayManager {
         List<String> availableColors = new ArrayList<>();
         List<Spool> spools = printerManager.getSpools();
         int counter = 1;
+
+        System.out.println("-".repeat(10) + " Spools " + "-".repeat(10));
         for (var spool : spools) {
             String colorString = spool.getColor();
             if(type == spool.getFilamentType() && !availableColors.contains(colorString)) {
@@ -39,6 +41,9 @@ public class DisplayManager {
                 counter++;
             }
         }
+
+        System.out.println("-".repeat(22+"Spools".length()));
+
     }
 
     /** Prints all available Prints based on a List that is kept by PrinterManager */
