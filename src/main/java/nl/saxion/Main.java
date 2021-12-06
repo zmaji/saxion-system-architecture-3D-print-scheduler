@@ -1,15 +1,6 @@
 package nl.saxion;
 
 import nl.saxion.models.facade.PrinterFacade;
-import nl.saxion.models.prints.FilamentType;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URL;
 import java.util.*;
 
 public class Main {
@@ -21,10 +12,6 @@ public class Main {
     }
 
     public void run() {
-        //TODO: Move readers to individual class.
-//        readPrintsFromFile();
-//        readSpoolsFromFile();
-//        readPrintersFromFile();
         int choice = 1;
         while (choice > 0 && choice < 10) {
             // Print menu
