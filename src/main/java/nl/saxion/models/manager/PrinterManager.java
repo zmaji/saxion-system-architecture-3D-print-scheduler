@@ -343,10 +343,6 @@ public class PrinterManager {
         for(int i=0; i<spools.length && i < task.getColors().size();i++) {
             spools[i].reduceLength(task.getPrint().getFilamentLength().get(i));
         }
-
-//        Thread t1 = new Thread(task::failTask);
-//        t1.start();
-//        selectPrintTask(printer);
     }
 
     //TODO: Make this register on observation?
