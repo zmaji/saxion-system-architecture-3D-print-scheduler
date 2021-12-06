@@ -22,11 +22,6 @@ public class Spool {
     }
 
     public boolean spoolMatch(String color, FilamentType type) {
-        //TODO: Auto-simplified statement
-//        if(color.equals(this.color) && type == this.getFilamentType()) {
-//            return true;
-//        }
-//        return false;
         return color.equals(this.color) && type == this.getFilamentType();
     }
     /**
