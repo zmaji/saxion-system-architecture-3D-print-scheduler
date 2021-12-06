@@ -52,23 +52,6 @@ public class PrinterManager {
         }
     }
 
-//    /** Calls a certain method based on the printerType given in the parameters
-//     *
-//     * @param id the ID value of the Printer
-//     * @param printerType the Type value of the Printer
-//     * @param printerName the name of the Printer
-//     * @param manufacturer the manufacturer of the Printer
-//     * @param maxX the maxX value of the Printer
-//     * @param maxY the maxY value of the Printer
-//     * @param maxZ the maxZ value of the Printer
-//     * @param maxColors the maximum colors of the Printer
-//     * @param currentSpools the currentSpools of the Printer
-//     */
-//
-//    public void addPrinter(int id, int printerType, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors, JSONArray currentSpools) {
-//        printerFactory.createPrinter(id, printerType, printerName, manufacturer, maxX, maxY, maxZ, maxColors, currentSpools);
-//    }
-
     /** Checks if the color of a given spool matches the name
      *
      * @param list a list to search in
@@ -79,7 +62,6 @@ public class PrinterManager {
         return list.stream().anyMatch(o -> o.getColor().equals(name));
     }
 
-    //TODO: What does this method do? How to break it down?
     public void selectPrintTask(Printer printer) {
         Spool[] spools = printer.getCurrentSpools();
         PrintTask chosenTask = null;
@@ -168,10 +150,6 @@ public class PrinterManager {
                         if (chosenSpools.size() == printTask.getColors().size()) {
                             runningPrintTasks.put(printer, printTask);
 
-                            //TODO: Changed this to a one liner
-//                            for (Spool spool : printer.getCurrentSpools()) {
-//                                freeSpools.add(spool);
-//                            }
                             freeSpools.addAll(Arrays.asList(printer.getCurrentSpools()));
 
                             printer.setCurrentSpools(chosenSpools);
@@ -192,26 +170,11 @@ public class PrinterManager {
         }
     }
 
-    //TODO: Make the PrinterFacade to this with a List given by the PrinterManager?
     /** Loops through a List of Printers and selects a Print Task for every element */
     public void startInitialQueue() {
         for(Printer printer: printers) {
             selectPrintTask(printer);
         }
-    }
-
-    /** Creates a new Print based on given parameters and adds it to a List of Prints
-     *
-     * @param name the name of the Print
-     * @param filename the filename of the Print
-     * @param height the height of the Print
-     * @param width the width of the Print
-     * @param length the length of the Print
-     * @param filamentLength the filamentLength of the Print
-     */
-    public void addPrint(String name, String filename, int height, int width, int length, ArrayList<Integer> filamentLength) {
-        Print p = new Print(name, filename, height, width, length, filamentLength);
-        prints.add(p);
     }
 
     public void addToPrintList(Print print) {
@@ -317,8 +280,6 @@ public class PrinterManager {
         return null;
     }
 
-
-    //TODO: Make this register on observation?
     public void registerPrinterFailure(int printerId) {
         Map.Entry<Printer, PrintTask> foundEntry = null;
         for (Map.Entry<Printer, PrintTask> entry : runningPrintTasks.entrySet()) {
@@ -343,13 +304,8 @@ public class PrinterManager {
         for(int i=0; i<spools.length && i < task.getColors().size();i++) {
             spools[i].reduceLength(task.getPrint().getFilamentLength().get(i));
         }
-
-//        Thread t1 = new Thread(task::failTask);
-//        t1.start();
-//        selectPrintTask(printer);
     }
 
-    //TODO: Make this register on observation?
     public void registerCompletion(int printerId) {
         Map.Entry<Printer, PrintTask> foundEntry = null;
         for (Map.Entry<Printer, PrintTask> entry : runningPrintTasks.entrySet()) {
@@ -373,7 +329,6 @@ public class PrinterManager {
         for(int i=0; i<spools.length && i < task.getColors().size();i++) {
             spools[i].reduceLength(task.getPrint().getFilamentLength().get(i));
         }
-//        task.completeTask();
         selectPrintTask(printer);
 
 
