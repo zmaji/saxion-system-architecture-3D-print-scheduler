@@ -1,5 +1,4 @@
 package nl.saxion.models.manager;
-
 import nl.saxion.models.printers.Printer;
 import nl.saxion.models.prints.FilamentType;
 import nl.saxion.models.prints.Print;
@@ -12,7 +11,7 @@ import java.util.List;
 public class DisplayManager {
     private final PrinterManager printerManager;
 
-    public DisplayManager(PrinterManager printerManager) {
+    public DisplayManager(nl.saxion.models.manager.PrinterManager printerManager) {
         this.printerManager = printerManager;
     }
 
