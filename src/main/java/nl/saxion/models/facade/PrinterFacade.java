@@ -11,7 +11,6 @@ import nl.saxion.models.prints.Spool;
 import nl.saxion.models.strategies.EfficientSpoolUsageStrategy;
 import nl.saxion.models.strategies.LessSpoolChangeStrategy;
 import nl.saxion.models.strategies.PrintStrategy;
-import org.json.simple.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,10 +61,6 @@ public class PrinterFacade {
         List<String> chosenColors = findColorsOnInput(chosenPrint, chosenType);
 
         printerManager.addPrintTask(chosenPrint.getName(), chosenColors, chosenType);
-    }
-
-    public PrintStrategy getPrintStrategy() {
-        return printerManager.getPrintStrategy();
     }
 
    /** Sets the Strategy Type based on user input */
