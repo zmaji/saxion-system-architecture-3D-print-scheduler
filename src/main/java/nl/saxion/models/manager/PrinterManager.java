@@ -44,9 +44,9 @@ public class PrinterManager {
         this.spoolReader = new SpoolReader("/spools.json", this.spoolFactory);
         this.printerReader = new PrinterReader("/printers.json", this.printerFactory);
         try {
-            printReader.readPrintsFromFile();
-            spoolReader.readPrintsFromFile();
-            printerReader.readPrintsFromFile();
+            printReader.readItems();
+            spoolReader.readItems();
+            printerReader.readItems();
         } catch (ReaderException e) {
             e.printStackTrace();
         }

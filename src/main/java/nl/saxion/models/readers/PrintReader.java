@@ -22,7 +22,7 @@ public class PrintReader extends JSONReader<Print> {
     }
 
     @Override
-    public void readPrintsFromFile() throws ReaderException {
+    public void readItems() throws ReaderException {
         JSONParser jsonParser = new JSONParser();
         URL printResource = getClass().getResource(source);
         if (printResource == null) {
@@ -46,13 +46,6 @@ public class PrintReader extends JSONReader<Print> {
                 printFactory.createPrint(name, filename, height, width, length, filamentLength);
                 this.readItems.add(new Print(name, filename, height, width, length, filamentLength));
             }
-
-//            return readItems;
-//        } catch (IOException | ParseException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return null;
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
