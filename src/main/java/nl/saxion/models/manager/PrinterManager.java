@@ -64,6 +64,7 @@ public class PrinterManager {
 
     public void selectPrintTask(Printer printer) {
         Spool[] spools = printer.getCurrentSpools();
+        printStrategy.selectPrintTask(pendingPrintTasks, printer);
         PrintTask chosenTask = null;
         // First we look if there's a task that matches the current spool on the printer.
         for(PrintTask printTask: pendingPrintTasks) {

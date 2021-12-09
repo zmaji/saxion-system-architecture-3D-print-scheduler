@@ -5,7 +5,7 @@ import nl.saxion.models.prints.state.PrintTaskState;
 
 import java.util.List;
 
-public class PrintTask {
+public class PrintTask implements Comparable<PrintTask> {
     private Print print;
     private List<String> colors;
     private FilamentType filamentType;
@@ -53,5 +53,10 @@ public class PrintTask {
     @Override
     public String toString() {
         return print.getName() +" " + filamentType + " " + colors.toString();
+    }
+
+    @Override
+    public int compareTo(PrintTask o) {
+        return  o.print.getLength() - print.getLength();
     }
 }

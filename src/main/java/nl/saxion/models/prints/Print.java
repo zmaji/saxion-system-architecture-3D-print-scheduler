@@ -33,7 +33,7 @@ public class Print {
         return name;
     }
 
-    public double getLength() {
+    public int getLength() {
         return length;
     }
 
