@@ -5,6 +5,7 @@ import nl.saxion.models.printers.HousedMultiColor;
 import nl.saxion.models.printers.HousedPrinter;
 import nl.saxion.models.printers.MultiColor;
 import nl.saxion.models.printers.StandardFDM;
+import nl.saxion.models.prints.FilamentType;
 import nl.saxion.models.prints.Spool;
 import org.json.simple.JSONArray;
 
@@ -113,14 +114,25 @@ public class PrinterFactory {
     private void addHousedMulticolor(int id, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors, JSONArray currentSpools) {
         HousedMultiColor printer = new HousedMultiColor(id, printerName, manufacturer, maxX, maxY, maxZ, maxColors);
         ArrayList<Spool> cspools = new ArrayList<>();
-        cspools.add(this.printerManager.getSpoolByID(((Long) currentSpools.get(0)).intValue()));
-        cspools.add(this.printerManager.getSpoolByID(((Long) currentSpools.get(1)).intValue()));
-        cspools.add(this.printerManager.getSpoolByID(((Long) currentSpools.get(2)).intValue()));
-        cspools.add(this.printerManager.getSpoolByID(((Long) currentSpools.get(3)).intValue()));
-        printer.setCurrentSpools(cspools);
-        for(Spool spool: cspools) {
-            this.printerManager.removeFreeSpool(spool);
+        for (int i = 0; i < 4; i++) {
+            if (this.printerManager.getSpoolByID(((Long) currentSpools.get(i)).intValue()) != null) {
+                cspools.add(this.printerManager.getSpoolByID(((Long) currentSpools.get(i)).intValue()));
+            }
         }
+
+        if (cspools.size() == 0) {
+            for (int i = 0; i < 4; i++) {
+                for (Spool freeSpool : this.printerManager.getFreeSpools()) {
+                    if (freeSpool.getFilamentType() != FilamentType.ABS) {
+                        cspools.add(freeSpool);
+                        this.printerManager.removeFreeSpool(freeSpool);
+                        break;
+                    }
+                }
+            }
+        }
+
+        printer.setCurrentSpools(cspools);
         this.printerManager.addToPrinters(printer);
         this.printerManager.addFreePrinter(printer);
     }
