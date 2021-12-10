@@ -124,5 +124,5 @@ public class PrinterFactory {
         this.printerManager.addToPrinters(printer);
         this.printerManager.addFreePrinter(printer);
     }
-}
+
 }
