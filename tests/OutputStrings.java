@@ -107,6 +107,10 @@ public class OutputStrings {
         printers.get(index).setCurrentPrint(print);
     }
 
+    public void setCurrentSpoolOnPrinter(int index, int spoolid) {
+        printers.get(index).setCurrentSpool(spoolid);
+    }
+
     public void reduceSpoolLength(int index, double length) {
         spools.get(index).reduceLength(length);
     }

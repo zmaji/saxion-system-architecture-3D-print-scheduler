@@ -159,6 +159,7 @@ public class TestSuite {
 
         outputStrings.setCurrentPrintOnPrinter(0, "Dog PLA [Blue]");
         outputStrings.setCurrentPrintOnPrinter(1, "Dog PLA [Red]"); // Print will of course be assigned to the next free printer.
+        outputStrings.setCurrentSpoolOnPrinter(1, 12);
 
         final String testString = outputStrings.menu() +
                 outputStrings.addPrint("PLA") +
@@ -187,6 +188,8 @@ public class TestSuite {
 
         outputStrings.setCurrentPrintOnPrinter(0, "Dog PLA [Red]");
         outputStrings.setCurrentPrintOnPrinter(1, "Dog PETG [Blue]"); // Print will of course be assigned to the next free printer.
+        outputStrings.setCurrentSpoolOnPrinter(0, 12);
+        outputStrings.setCurrentSpoolOnPrinter(1, 14);
 
         final String testString = outputStrings.menu() +
                 outputStrings.addPrint("PLA") +
@@ -239,6 +242,7 @@ public class TestSuite {
         String print = "Spaceship PLA [Blue]";
 
         outputStrings.setCurrentPrintOnPrinter(1, print);
+        outputStrings.setCurrentSpoolOnPrinter(1, 11);
 
         final String testString = outputStrings.menu() +
                 outputStrings.addPrint("PLA") +
@@ -284,6 +288,7 @@ public class TestSuite {
         Main.main(new String[0]);
 
         outputStrings.setCurrentPrintOnPrinter(0, "Dog PLA [Red]");
+        outputStrings.setCurrentSpoolOnPrinter(0, 12);
 
         final String testString = outputStrings.menu() +
                 outputStrings.addPrint("PLA") +
@@ -374,6 +379,7 @@ public class TestSuite {
 
         outputStrings.setCurrentPrintOnPrinter(0, print);
         outputStrings.setCurrentPrintOnPrinter(1, print);
+        outputStrings.setCurrentSpoolOnPrinter(1, 11);
 
         final String testString = outputStrings.menu() +
                 outputStrings.addPrint("PLA") +
@@ -405,6 +411,7 @@ public class TestSuite {
 
         outputStrings.setCurrentPrintOnPrinter(0, print);
         outputStrings.setCurrentPrintOnPrinter(1, print);
+        outputStrings.setCurrentSpoolOnPrinter(1, 11);
 
         final String testString = outputStrings.menu() +
                 outputStrings.addPrint("PLA") +

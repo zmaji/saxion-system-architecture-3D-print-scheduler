@@ -17,30 +17,34 @@ public class EfficientSpoolUsageStrategy implements PrintStrategy {
         Spool lowestSpool = spools.get(0);
         PrintTask chosenTask = null;
 
-        for (Spool spool : spools) {
-            if (spool.getLength() < lowestSpool.getLength()) {
-                lowestSpool = spool;
+        while (spools.size() != 0 && chosenTask == null) {
+            for (Spool spool : spools) {
+                if (spool.getLength() < lowestSpool.getLength()) {
+                    lowestSpool = spool;
+                }
+            }
+
+            for (PrintTask pendingPrintTask : pendingPrintTasks) {
+                if (pendingPrintTask.getColors().contains(lowestSpool.getColor()) && lowestSpool.getLength() >= pendingPrintTask.getPrint().getLength()) {
+                    compatibleTasks.add(pendingPrintTask);
+                }
+            }
+
+            if (compatibleTasks.size() == 1) {
+                chosenTask = compatibleTasks.get(0);
+                printer.setCurrentSpool(lowestSpool);
+            } else if (compatibleTasks.size() > 1) {
+                Collections.sort(compatibleTasks);
+                chosenTask = compatibleTasks.get(0);
+                printer.setCurrentSpool(lowestSpool);
+            } else {
+                spools.remove(lowestSpool);
             }
         }
-
-        for (PrintTask pendingPrintTask : pendingPrintTasks) {
-            if (pendingPrintTask.getColors().contains(lowestSpool.getColor()) && lowestSpool.getLength() >= pendingPrintTask.getPrint().getLength()) {
-                compatibleTasks.add(pendingPrintTask);
-            }
+        for (PrintTask compatibleTask : compatibleTasks) {
+            System.out.println(compatibleTask);
         }
-
-        if (compatibleTasks.size() == 1) {
-            chosenTask = compatibleTasks.get(0);
-            printer.setCurrentSpool(lowestSpool);
-        } else if (compatibleTasks.size() > 1) {
-            Collections.sort(compatibleTasks);
-            chosenTask = compatibleTasks.get(0);
-            printer.setCurrentSpool(lowestSpool);
-        } else {
-            spools.remove(lowestSpool);
-        }
-
-
+        System.out.println(chosenTask);
         return chosenTask;
     }
 
