@@ -41,11 +41,13 @@ public class PrinterManager {
 
     public PrinterManager() {
         this.printReader = new PrintReader("/prints.json", this.printFactory);
-        this.spoolReader = new SpoolReader("/spools.json", this.spoolFactory);
+//        this.spoolReader = new SpoolReader("/spools.json", this.spoolFactory);
+        this.spoolReader = new SpoolReader("/spools.csv", this.spoolFactory);
         this.printerReader = new PrinterReader("/printers.json", this.printerFactory);
         try {
             printReader.readItems();
-            spoolReader.readItems();
+//            spoolReader.readItems();
+            spoolReader.readItemsFromCSV();
             printerReader.readItems();
         } catch (ReaderException e) {
             e.printStackTrace();
