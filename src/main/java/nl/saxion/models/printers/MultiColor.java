@@ -18,11 +18,11 @@ public class MultiColor extends Printer {
 
     @Override
     public void setCurrentSpools(ArrayList<Spool> spools) {
-        this.spools = new Spool[spools.size()];
-        for (int i = 0; i < spools.size(); i++) {
-            this.spools[i] = spools.get(i);
-        }
+        this.spools = new Spool[4];
         setCurrentSpool(spools.get(0));
+        if(spools.size() > 1) this.spools[1] = spools.get(1);
+        if(spools.size() > 2) this.spools[2] = spools.get(2);
+        if(spools.size() > 3) this.spools[3] = spools.get(3);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class MultiColor extends Printer {
 
     @Override
     public boolean printFits(Print print) {
-        return false;
+        return print.getHeight() <= maxZ && print.getWidth() <= maxX && print.getLength() <= maxY;
     }
 
     @Override
@@ -47,13 +47,17 @@ public class MultiColor extends Printer {
 
     @Override
     public Spool[] getCurrentSpools() {
-        Spool[] spools = this.spools;
+        Spool[] spools = new Spool[4];
+        spools[0] = this.currentSpool;
+        spools[1] = this.spools[1];
+        spools[2] = this.spools[2];
+        spools[3] = this.spools[3];
         return spools;
     }
 
     @Override
     public Spool getCurrentSpool() {
-        return null;
+        return this.currentSpool;
     }
 
     @Override

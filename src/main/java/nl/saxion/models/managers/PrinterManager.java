@@ -105,7 +105,7 @@ public class PrinterManager {
                 } else if (printer instanceof MultiColor && printTask.getFilamentType() != FilamentType.ABS && printTask.getColors().size() <= ((MultiColor) printer).getMaxColors()) {
                     boolean printWorks = true;
                     for (int i = 0; i < spools.length && i < printTask.getColors().size(); i++) {
-                        if (!spools[i].spoolMatch(printTask.getColors().get(i), printTask.getFilamentType())) {
+                        if (spools[i] != null && !spools[i].spoolMatch(printTask.getColors().get(i), printTask.getFilamentType())) {
                             printWorks = false;
                         }
                     }
