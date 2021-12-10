@@ -138,6 +138,7 @@ public class PrinterManager {
                             System.out.println("Please place spool " + chosenSpool.getId() + " in printer " + printer.getName());
                             freeSpools.remove(chosenSpool);
                             freePrinters.remove(printer);
+                            printer.setCurrentSpool(chosenSpool);
                             chosenTask = printTask;
                         }
                     } else if (printer instanceof HousedPrinter && printTask.getColors().size() == 1) {
@@ -153,6 +154,7 @@ public class PrinterManager {
                             System.out.println("Please place spool " + chosenSpool.getId() + " in printer " + printer.getName());
                             freeSpools.remove(chosenSpool);
                             freePrinters.remove(printer);
+                            printer.setCurrentSpool(chosenSpool);
                             chosenTask = printTask;
                         }
                     } else if (printer instanceof MultiColor && printTask.getFilamentType() != FilamentType.ABS && printTask.getColors().size() <= ((MultiColor) printer).getMaxColors()) {
