@@ -28,13 +28,13 @@ public class PrinterManager {
     private HashMap<Printer, PrintTask> runningPrintTasks = new HashMap();
 
     private PrintStrategy printStrategy = new LessSpoolChangeStrategy();
-    private PrinterFactory printerFactory = new PrinterFactory(this);
-    private PrintFactory printFactory = new PrintFactory(this);
-    private SpoolFactory spoolFactory = new SpoolFactory(this);
+    private final PrinterFactory printerFactory = new PrinterFactory(this);
+    private final PrintFactory printFactory = new PrintFactory(this);
+    private final SpoolFactory spoolFactory = new SpoolFactory(this);
 
-    private PrinterReader printerReader;
-    private PrintReader printReader;
-    private SpoolReader spoolReader;
+    private final PrinterReader printerReader;
+    private final PrintReader printReader;
+    private final SpoolReader spoolReader;
 
     public PrinterManager() {
         this.printReader = new PrintReader("/prints.json", this.printFactory);
