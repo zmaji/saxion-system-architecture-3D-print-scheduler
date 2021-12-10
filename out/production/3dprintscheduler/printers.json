@@ -53,5 +53,16 @@
     "maxZ": 100,
     "maxColors": -1,
     "currentSpools": [2]
+  },
+  {
+    "id": 6,
+    "type": 4,
+    "name": "Red Dwarf",
+    "manufacturer": "Orion Prints",
+    "maxX": 300,
+    "maxY": 300,
+    "maxZ": 300,
+    "maxColors": 4,
+    "currentSpools": [-1, -1, -1, -1]
   }
 ]

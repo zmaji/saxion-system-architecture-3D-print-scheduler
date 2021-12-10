@@ -1,6 +1,6 @@
 package nl.saxion.models.factories;
 
-import nl.saxion.models.manager.PrinterManager;
+import nl.saxion.models.managers.PrinterManager;
 
 public abstract class PrintSchedulerFactory {
 

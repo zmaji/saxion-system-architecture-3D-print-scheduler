@@ -1,8 +1,8 @@
 package nl.saxion.models.facade;
 
 import nl.saxion.Helper;
-import nl.saxion.models.manager.DisplayManager;
-import nl.saxion.models.manager.PrinterManager;
+import nl.saxion.models.managers.DisplayManager;
+import nl.saxion.models.managers.PrinterManager;
 import nl.saxion.models.printers.Printer;
 import nl.saxion.models.prints.FilamentType;
 import nl.saxion.models.prints.Print;

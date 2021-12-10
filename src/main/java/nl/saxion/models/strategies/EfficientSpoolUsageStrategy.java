@@ -11,16 +11,6 @@ import java.util.List;
 
 public class EfficientSpoolUsageStrategy implements PrintStrategy {
     @Override
-    public void calculatePrintTime() {
-        System.out.println("Calculated time with the use of efficient spool strategy: 75");
-    }
-
-    @Override
-    public void calculateTotalCost() {
-        System.out.println("Calculated cost with the use of efficient spool strategy: 50");
-    }
-
-    @Override
     public PrintTask selectPrintTask(List<PrintTask> pendingPrintTasks, Printer printer) {
         List<PrintTask> compatibleTasks = new ArrayList<>();
         List<Spool> spools = Arrays.stream(printer.getCurrentSpools()).toList();
@@ -39,9 +29,11 @@ public class EfficientSpoolUsageStrategy implements PrintStrategy {
             }
         }
 
-        if (compatibleTasks.size() != 0) {
+        if (compatibleTasks.size() == 1) {
+            chosenTask = compatibleTasks.get(0);
+            printer.setCurrentSpool(lowestSpool);
+        } else if (compatibleTasks.size() > 1) {
             Collections.sort(compatibleTasks);
-            Collections.reverse(compatibleTasks);
             chosenTask = compatibleTasks.get(0);
             printer.setCurrentSpool(lowestSpool);
         } else {

@@ -1,4 +1,4 @@
-package nl.saxion.models.manager;
+package nl.saxion.models.managers;
 
 import nl.saxion.models.factories.PrintFactory;
 import nl.saxion.models.factories.PrinterFactory;
@@ -38,12 +38,10 @@ public class PrinterManager {
 
     public PrinterManager() {
         this.printReader = new PrintReader("/prints.json", this.printFactory);
-//        this.spoolReader = new SpoolReader("/spools.json", this.spoolFactory);
         this.spoolReader = new SpoolReader("/spools.csv", this.spoolFactory);
         this.printerReader = new PrinterReader("/printers.json", this.printerFactory);
         try {
             printReader.readItems();
-//            spoolReader.readItems();
             spoolReader.readItemsFromCSV();
             printerReader.readItems();
         } catch (ReaderException e) {
@@ -63,30 +61,30 @@ public class PrinterManager {
 
     public void selectPrintTask(Printer printer) {
         Spool[] spools = printer.getCurrentSpools();
-        printStrategy.selectPrintTask(pendingPrintTasks, printer);
+//        printStrategy.selectPrintTask(pendingPrintTasks, printer);
         PrintTask chosenTask = null;
         // First we look if there's a task that matches the current spool on the printer.
         for(PrintTask printTask: pendingPrintTasks) {
             if(printer.printFits(printTask.getPrint()) && printer.printerCompatibleWithTask(printTask)) {
-                if (printTask.getColors().size() == 1 && spools[0].spoolMatch(printTask.getColors().get(0), printTask.getFilamentType())) {
-                    runningPrintTasks.put(printer, printTask);
-                    freePrinters.remove(printer);
-                    chosenTask = printTask;
-                    break;
-                } else {
-                    boolean printWorks = true;
-                    for (int i = 0; i < spools.length && i < printTask.getColors().size(); i++) {
-                        if (!spools[i].spoolMatch(printTask.getColors().get(i), printTask.getFilamentType())) {
-                            printWorks = false;
-                        }
-                    }
-                    if (printWorks) {
-                        runningPrintTasks.put(printer, printTask);
-                        freePrinters.remove(printer);
-                        chosenTask = printTask;
-                        break;
-                    }
-                }
+//                if (printTask.getColors().size() == 1 && spools[0].spoolMatch(printTask.getColors().get(0), printTask.getFilamentType())) {
+//                    runningPrintTasks.put(printer, printTask);
+//                    freePrinters.remove(printer);
+//                    chosenTask = printTask;
+//                    break;
+//                } else {
+//                    boolean printWorks = true;
+//                    for (int i = 0; i < spools.length && i < printTask.getColors().size(); i++) {
+//                        if (!spools[i].spoolMatch(printTask.getColors().get(i), printTask.getFilamentType())) {
+//                            printWorks = false;
+//                        }
+//                    }
+//                    if (printWorks) {
+//                        runningPrintTasks.put(printer, printTask);
+//                        freePrinters.remove(printer);
+//                        chosenTask = printTask;
+//                        break;
+//                    }
+//                }
 
                 if (printer instanceof StandardFDM && printTask.getFilamentType() != FilamentType.ABS && printTask.getColors().size() == 1) {
                     if (spools[0].spoolMatch(printTask.getColors().get(0), printTask.getFilamentType())) {
