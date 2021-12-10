@@ -1,6 +1,8 @@
 package nl.saxion.models.printers;
 
+import nl.saxion.models.prints.FilamentType;
 import nl.saxion.models.prints.Print;
+import nl.saxion.models.prints.PrintTask;
 import nl.saxion.models.prints.Spool;
 
 import java.util.ArrayList;
@@ -31,6 +33,11 @@ public class MultiColor extends Printer {
     @Override
     public boolean printFits(Print print) {
         return false;
+    }
+
+    @Override
+    public boolean printerCompatibleWithTask(PrintTask printTask) {
+        return printTask.getFilamentType() != FilamentType.ABS && printTask.getColors().size() <= this.getMaxColors();
     }
 
     @Override

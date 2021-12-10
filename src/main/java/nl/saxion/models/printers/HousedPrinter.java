@@ -1,6 +1,7 @@
 package nl.saxion.models.printers;
 
 import nl.saxion.models.prints.Print;
+import nl.saxion.models.prints.PrintTask;
 import nl.saxion.models.prints.Spool;
 
 import java.util.ArrayList;
@@ -46,6 +47,11 @@ public class HousedPrinter extends Printer {
     @Override
     public boolean printFits(Print print) {
         return true;
+    }
+
+    @Override
+    public boolean printerCompatibleWithTask(PrintTask printTask) {
+        return printTask.getColors().size() == 1;
     }
 
     @Override
