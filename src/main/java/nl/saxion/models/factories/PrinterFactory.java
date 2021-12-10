@@ -1,6 +1,7 @@
 package nl.saxion.models.factories;
 
 import nl.saxion.models.manager.PrinterManager;
+import nl.saxion.models.printers.HousedMultiColor;
 import nl.saxion.models.printers.HousedPrinter;
 import nl.saxion.models.printers.MultiColor;
 import nl.saxion.models.printers.StandardFDM;
@@ -34,6 +35,7 @@ public class PrinterFactory {
             case 1 -> addStandardFDMPrinter(id, printerName, manufacturer, maxX, maxY, maxZ, currentSpools);
             case 2 -> addHousedPrinter(id, printerName, manufacturer, maxX, maxY, maxZ, currentSpools);
             case 3 -> addMultiColorPrinter(id, printerName, manufacturer, maxX, maxY, maxZ, maxColors, currentSpools);
+            case 4 -> addHousedMulticolor(id, printerName, manufacturer, maxX, maxY, maxZ, maxColors, currentSpools);
         }
     }
 
@@ -97,4 +99,30 @@ public class PrinterFactory {
         this.printerManager.addToPrinters(printer);
         this.printerManager.addFreePrinter(printer);
     }
+
+    /** Creates a new Housed Multicolor Printer based on given parameters and adds it to certain lists
+     *  @param id the ID value of the Printer
+     * @param printerName the name of the Printer
+     * @param manufacturer the manufacturer of the Printer
+     * @param maxX the maxX value of the Printer
+     * @param maxY the maxY value of the Printer
+     * @param maxZ the maxZ value of the Printer
+     * @param maxColors the maximum colors of the Printer
+     * @param currentSpools the currentSpools of the Printer
+     */
+    private void addHousedMulticolor(int id, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors, JSONArray currentSpools) {
+        HousedMultiColor printer = new HousedMultiColor(id, printerName, manufacturer, maxX, maxY, maxZ, maxColors);
+        ArrayList<Spool> cspools = new ArrayList<>();
+        cspools.add(this.printerManager.getSpoolByID(((Long) currentSpools.get(0)).intValue()));
+        cspools.add(this.printerManager.getSpoolByID(((Long) currentSpools.get(1)).intValue()));
+        cspools.add(this.printerManager.getSpoolByID(((Long) currentSpools.get(2)).intValue()));
+        cspools.add(this.printerManager.getSpoolByID(((Long) currentSpools.get(3)).intValue()));
+        printer.setCurrentSpools(cspools);
+        for(Spool spool: cspools) {
+            this.printerManager.removeFreeSpool(spool);
+        }
+        this.printerManager.addToPrinters(printer);
+        this.printerManager.addFreePrinter(printer);
+    }
+}
 }
