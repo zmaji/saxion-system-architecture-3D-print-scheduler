@@ -24,7 +24,7 @@ public class LessSpoolChangeStrategy implements PrintStrategy {
     public PrintTask selectPrintTask(List<PrintTask> pendingPrintTasks, Printer printer) {
         List<PrintTask> compatibleTasks = new ArrayList<>();
         Spool[] spools = printer.getCurrentSpools();
-        PrintTask chosenTask = null;
+        PrintTask chosenTask;
 
         for (PrintTask pendingPrintTask : pendingPrintTasks) {
             if (spools[0].spoolMatch(pendingPrintTask.getColors().get(0), pendingPrintTask.getFilamentType())) {

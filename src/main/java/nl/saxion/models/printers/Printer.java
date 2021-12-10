@@ -1,6 +1,7 @@
 package nl.saxion.models.printers;
 
 import nl.saxion.models.prints.Print;
+import nl.saxion.models.prints.PrintTask;
 import nl.saxion.models.prints.Spool;
 
 import java.util.ArrayList;
@@ -39,6 +40,8 @@ public abstract class Printer {
     public abstract void setCurrentSpool(Spool spool);
 
     public abstract boolean printFits(Print print);
+
+    public abstract boolean printerCompatibleWithTask(PrintTask printTask);
 
     @Override
     public String toString() {
