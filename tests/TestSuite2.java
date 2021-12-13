@@ -1,4 +1,5 @@
 import models.Printer;
+import models.Spool;
 import nl.saxion.Main;
 import org.junit.After;
 import org.junit.Before;
@@ -58,9 +59,13 @@ public class TestSuite2 {
         Main.main(new String[0]);
 
         outputStrings.setCurrentPrintOnPrinter(5, "House ABS [Blue, Red]");
+        outputStrings.setCurrentSpoolOnPrinter(5, 8);
+        outputStrings.setCurrentSpoolOnPrinter(5, 19);
 
         final String testString = outputStrings.menu() +
                 outputStrings.addPrint("ABS", 2) +
+                "Please place spool 8 in printer Red Dwarf" + System.lineSeparator() +
+                "Please place spool 19 in printer Red Dwarf" + System.lineSeparator() +
                 "Started task House ABS [Blue, Red] on printer Red Dwarf" + System.lineSeparator() +
                 outputStrings.menu() +
                 outputStrings.printers() +
@@ -90,7 +95,7 @@ public class TestSuite2 {
         assertEquals(testString, getOutput());
     }
 
-    // With all spools being the same size this strategy should favor a larger print first.
+    // There is now a smaller blue spool which will be used.
     @Test
     public void SimpleChangePrintingStrategy() {
         final String input = "4\n2\n" +
@@ -101,6 +106,9 @@ public class TestSuite2 {
         provideInput(input);
 
         outputStrings.setCurrentPrintOnPrinter(0, "Dog PLA [Blue]");
+        outputStrings.setCurrentSpoolOnPrinter(0, 21);
+        outputStrings.setCurrentPrintOnPrinter(1, "Frog PLA [Blue]");
+        outputStrings.setCurrentSpoolOnPrinter(1, 1);
 
         Main.main(new String[0]);
 
@@ -112,7 +120,10 @@ public class TestSuite2 {
                 outputStrings.menu() +
                 outputStrings.addPrint("PLA") +
                 outputStrings.addPrint("PLA") +
+                "Please place spool 21 in printer Enterprise" + System.lineSeparator() +
                 "Started task Dog PLA [Blue] on printer Enterprise" + System.lineSeparator() +
+                "Please place spool 1 in printer Serenity" + System.lineSeparator() +
+                "Started task Frog PLA [Blue] on printer Serenity" + System.lineSeparator() +
                 outputStrings.menu() +
                 outputStrings.printers() +
                 outputStrings.menu();
@@ -132,6 +143,8 @@ public class TestSuite2 {
 
         outputStrings.setCurrentPrintOnPrinter(0, "Dog PLA [Red]");
         outputStrings.setCurrentSpoolOnPrinter(0, 12);
+        outputStrings.setCurrentPrintOnPrinter(1, "Frog PLA [Blue]");
+        outputStrings.setCurrentSpoolOnPrinter(1, 21);
 
         Main.main(new String[0]);
 
@@ -145,58 +158,14 @@ public class TestSuite2 {
                 outputStrings.addPrint("PLA") +
                 "Please place spool 12 in printer Enterprise" + System.lineSeparator() +
                 "Started task Dog PLA [Blue] on printer Enterprise" + System.lineSeparator() +
+                "Please place spool 21 in printer Enterprise" + System.lineSeparator() +
+                "Started task Frog PLA [Blue] on printer Serenity" + System.lineSeparator() +
                 outputStrings.menu() +
                 outputStrings.printers() +
                 outputStrings.menu();
 
         assertEquals(testString, getOutput());
     }
-
-    @Test
-    public void AssignPrintToEachPrinterThenChangeTactic() {
-        final String input = "1\n1\n1\n1\n" +
-                "1\n1\n3\n2\n" +
-                "1\n2\n2\n1\n2\n" +
-                "1\n5\n1\n3\n" +
-                "1\n3\n1\n2\n" +
-                "1\n2\n3\n1\n2\n" +
-                "5\n7\n9\n" +
-                "4\n2\n" + // Change the strategy
-
-                "0";
-        provideInput(input);
-        Main.main(new String[0]);
-
-        outputStrings.setCurrentPrintOnPrinter(0, "Dog PLA [Blue]");
-        outputStrings.setCurrentPrintOnPrinter(1, "Dog ABS [Red]");
-        outputStrings.setCurrentPrintOnPrinter(2, "House PETG [Blue, Red]");
-        outputStrings.setCurrentPrintOnPrinter(3, "Spaceship PLA [Green]");
-        outputStrings.setCurrentPrintOnPrinter(4, "Frog PLA [Red]");
-        outputStrings.setCurrentPrintOnPrinter(5, "House ABS [Blue, Red]");
-
-        String testString = outputStrings.menu() +
-                outputStrings.addPrint("PLA") +
-                outputStrings.addPrint("ABS") +
-                outputStrings.addPrint("PETG", 2) +
-                outputStrings.addPrint("PLA") +
-                outputStrings.addPrint("PLA") +
-                outputStrings.addPrint("ABS", 2) +
-                "Started task Dog PLA [Blue] on printer Enterprise" + System.lineSeparator() +
-                "Started task Dog ABS [Red] on printer Serenity" + System.lineSeparator() +
-                "Started task House PETG [Blue, Red] on printer Tardis" + System.lineSeparator() +
-                "Started task Spaceship PLA [Green] on printer Rocinante" + System.lineSeparator() +
-                "Started task Frog PLA [Red] on printer Bebop" + System.lineSeparator() +
-                "Started task House ABS [Blue, Red] on printer Red Dwarf" + System.lineSeparator() +
-                outputStrings.menu() +
-                outputStrings.printers() +
-                outputStrings.menu() +
-                "--------- Pending Print Tasks ---------" + System.lineSeparator() +
-                "--------------------------------------" +System.lineSeparator() +
-                outputStrings.menu();
-
-        assertEquals(testString, getOutput());
-    }
-
 
     /* Original Tests Updated with new options */
 
@@ -503,6 +472,8 @@ public class TestSuite2 {
         outputStrings.setCurrentPrintOnPrinter(3, "Spaceship PLA [Green]");
         outputStrings.setCurrentPrintOnPrinter(4, "Frog PLA [Red]");
         outputStrings.setCurrentPrintOnPrinter(5, "House ABS [Blue, Red]");
+        outputStrings.setCurrentSpoolOnPrinter(5, 8);
+        outputStrings.setCurrentSpoolOnPrinter(5, 19);
 
         final String testString = outputStrings.menu() +
                 outputStrings.addPrint("PLA") +
@@ -516,6 +487,9 @@ public class TestSuite2 {
                 "Started task House PETG [Blue, Red] on printer Tardis" + System.lineSeparator() +
                 "Started task Spaceship PLA [Green] on printer Rocinante" + System.lineSeparator() +
                 "Started task Frog PLA [Red] on printer Bebop" + System.lineSeparator() +
+                "Please place spool 8 in printer Red Dwarf" + System.lineSeparator() +
+                "Please place spool 19 in printer Red Dwarf" + System.lineSeparator() +
+                "Started task House ABS [Blue, Red] on printer Red Dwarf" + System.lineSeparator() +
                 outputStrings.menu() +
                 outputStrings.printers() +
                 outputStrings.menu() +
@@ -637,7 +611,8 @@ public class TestSuite2 {
         outputStrings.setCurrentPrintOnPrinter(3, "Spaceship PLA [Green]");
         outputStrings.setCurrentPrintOnPrinter(4, "Frog PLA [Red]");
         outputStrings.setCurrentPrintOnPrinter(5, "House ABS [Blue, Red]");
-
+        outputStrings.setCurrentSpoolOnPrinter(5, 8);
+        outputStrings.setCurrentSpoolOnPrinter(5, 19);
 
         final String testString = outputStrings.menu() +
                 outputStrings.addPrint("PLA") +
@@ -653,6 +628,8 @@ public class TestSuite2 {
                 "Started task House PETG [Blue, Red] on printer Tardis" + System.lineSeparator() +
                 "Started task Spaceship PLA [Green] on printer Rocinante" + System.lineSeparator() +
                 "Started task Frog PLA [Red] on printer Bebop" + System.lineSeparator() +
+                "Please place spool 8 in printer Red Dwarf" + System.lineSeparator() +
+                "Please place spool 19 in printer Red Dwarf" + System.lineSeparator() +
                 "Started task House ABS [Blue, Red] on printer Red Dwarf" + System.lineSeparator() +
                 outputStrings.menu() +
                 outputStrings.activePrinters(true) +

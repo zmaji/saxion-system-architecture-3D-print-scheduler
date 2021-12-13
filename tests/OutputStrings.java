@@ -41,6 +41,7 @@ public class OutputStrings {
         spools.add(new Spool(18, "Blue", "ABS", 2000.5));
         spools.add(new Spool(19, "Red", "ABS", 2500.0));
         spools.add(new Spool(20, "Green", "ABS", 2500.0));
+        spools.add(new Spool(21, "Blue", "PLA", 1000.0));
 
     }
 
