@@ -5,7 +5,6 @@ import java.util.*;
 
 public class Main {
     private final PrinterFacade printerFacade = new PrinterFacade();
-    Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         new Main().run();

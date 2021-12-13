@@ -27,23 +27,24 @@ public class LessSpoolChangeStrategy implements PrintStrategy {
         if (compatibleTasks.size() != 0) {
             Collections.sort(compatibleTasks);
         } else {
-            List<PrintTask> availablePendingTasks = pendingPrintTasks;
-            Collections.sort(availablePendingTasks);
-            PrintTask chosenTask = availablePendingTasks.get(0);
-
-            Spool chosenSpool = null;
-            for (Spool spool : spools) {
-                if (spool.spoolMatch(chosenTask.getColors().get(0), chosenTask.getFilamentType())) {
-                    if (spool.getLength() >= chosenTask.getPrint().getLength()) {
-                        chosenSpool = spool;
-                        break;
+            List<PrintTask> availablePendingTasks = new ArrayList<>(pendingPrintTasks);
+            if (availablePendingTasks.size() != 0) {
+                Collections.sort(availablePendingTasks);
+                PrintTask chosenTask = availablePendingTasks.get(0);
+                Spool chosenSpool = null;
+                for (Spool spool : spools) {
+                    if (spool.spoolMatch(chosenTask.getColors().get(0), chosenTask.getFilamentType())) {
+                        if (spool.getLength() >= chosenTask.getPrint().getLength()) {
+                            chosenSpool = spool;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if (chosenSpool != null) {
-                printer.setCurrentSpool(chosenSpool);
-                compatibleTasks.add(chosenTask);
+                if (chosenSpool != null) {
+                    printer.setCurrentSpool(chosenSpool);
+                    compatibleTasks.add(chosenTask);
+                }
             }
         }
 
