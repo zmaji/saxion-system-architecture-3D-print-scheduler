@@ -11,13 +11,12 @@ import java.util.List;
 
 public class EfficientSpoolUsageStrategy implements PrintStrategy {
     @Override
-    public PrintTask selectPrintTask(List<PrintTask> pendingPrintTasks, Printer printer) {
+    public List<PrintTask> selectPrintTask(List<PrintTask> pendingPrintTasks, Printer printer) {
         List<PrintTask> compatibleTasks = new ArrayList<>();
-        List<Spool> spools = Arrays.stream(printer.getCurrentSpools()).toList();
+        List<Spool> spools = new ArrayList<>(Arrays.stream(printer.getCurrentSpools()).toList());
         Spool lowestSpool = spools.get(0);
-        PrintTask chosenTask = null;
 
-        while (spools.size() != 0 && chosenTask == null) {
+        while (spools.size() != 0) {
             for (Spool spool : spools) {
                 if (spool.getLength() < lowestSpool.getLength()) {
                     lowestSpool = spool;
@@ -31,21 +30,21 @@ public class EfficientSpoolUsageStrategy implements PrintStrategy {
             }
 
             if (compatibleTasks.size() == 1) {
-                chosenTask = compatibleTasks.get(0);
                 printer.setCurrentSpool(lowestSpool);
+                break;
             } else if (compatibleTasks.size() > 1) {
                 Collections.sort(compatibleTasks);
-                chosenTask = compatibleTasks.get(0);
                 printer.setCurrentSpool(lowestSpool);
+                break;
             } else {
                 spools.remove(lowestSpool);
+                if (spools.size() == 0) {
+                    break;
+                }
             }
         }
-        for (PrintTask compatibleTask : compatibleTasks) {
-            System.out.println(compatibleTask);
-        }
-        System.out.println(chosenTask);
-        return chosenTask;
+
+        return compatibleTasks;
     }
 
     @Override

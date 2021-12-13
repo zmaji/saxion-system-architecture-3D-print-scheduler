@@ -7,6 +7,6 @@ import nl.saxion.models.prints.Spool;
 import java.util.List;
 
 public interface PrintStrategy {
-    public PrintTask selectPrintTask(List<PrintTask> pendingPrintTasks, Printer printer);
+    public List<PrintTask> selectPrintTask(List<PrintTask> pendingPrintTasks, Printer printer);
     public String toString();
 }

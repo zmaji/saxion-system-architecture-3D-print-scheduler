@@ -61,78 +61,35 @@ public class PrinterManager {
 
     public void selectPrintTask(Printer printer) {
         Spool[] spools = printer.getCurrentSpools();
-        printStrategy.selectPrintTask(pendingPrintTasks, printer);
-        PrintTask chosenTask = null;
-        // First we look if there's a task that matches the current spool on the printer.
-        for(PrintTask printTask: pendingPrintTasks) {
-            if(printer.printFits(printTask.getPrint()) && printer.printerCompatibleWithTask(printTask)) {
-                if (printTask.getColors().size() == 1 && spools[0].spoolMatch(printTask.getColors().get(0), printTask.getFilamentType())) {
-                    runningPrintTasks.put(printer, printTask);
-                    freePrinters.remove(printer);
-                    chosenTask = printTask;
-                    break;
-                } else {
-                    boolean printWorks = true;
-                    for (int i = 0; i < spools.length && i < printTask.getColors().size(); i++) {
-                        if (!spools[i].spoolMatch(printTask.getColors().get(i), printTask.getFilamentType())) {
-                            printWorks = false;
-                        }
-                    }
-                    if (printWorks) {
+        List<PrintTask> printTasksFromStrategy = new ArrayList<>();
+        try {
+            printTasksFromStrategy = printStrategy.selectPrintTask(pendingPrintTasks, printer);
+        } catch (IllegalArgumentException exception) {
+            System.err.println(exception.getMessage());
+        }
+
+        if (printTasksFromStrategy.size() > 0) {
+            PrintTask chosenTask = null;
+            // First we look if there's a task that matches the current spool on the printer.
+            for(PrintTask printTask: printTasksFromStrategy) {
+                if(printer.printFits(printTask.getPrint()) && printer.printerCompatibleWithTask(printTask)) {
+                    if (printTask.getColors().size() == 1 && spools[0].spoolMatch(printTask.getColors().get(0), printTask.getFilamentType())) {
                         runningPrintTasks.put(printer, printTask);
                         freePrinters.remove(printer);
                         chosenTask = printTask;
                         break;
-                    }
-                }
-            }
-        }
-        if(chosenTask != null) {
-            pendingPrintTasks.remove(chosenTask);
-            System.out.println("Started task " + chosenTask + " on printer " + printer.getName());
-        } else {
-            // If we didn't find a print for the current spool we search for a print with the free spools.
-            for(PrintTask printTask: pendingPrintTasks) {
-                if(printer.printFits(printTask.getPrint()) && getPrinterCurrentTask(printer) == null && printer.printerCompatibleWithTask(printTask)) {
-                    if (printTask.getColors().size() == 1) {
-                        Spool chosenSpool = null;
-                        for (Spool spool : freeSpools) {
-                            if (spool.spoolMatch(printTask.getColors().get(0), printTask.getFilamentType())) {
-                                chosenSpool = spool;
-                            }
-                        }
-                        if (chosenSpool != null) {
-                            runningPrintTasks.put(printer, printTask);
-                            freeSpools.add(printer.getCurrentSpools()[0]);
-                            System.out.println("Please place spool " + chosenSpool.getId() + " in printer " + printer.getName());
-                            freeSpools.remove(chosenSpool);
-                            freePrinters.remove(printer);
-                            printer.setCurrentSpool(chosenSpool);
-                            chosenTask = printTask;
-                        }
                     } else {
-                        ArrayList<Spool> chosenSpools = new ArrayList<>();
-                        for (int i = 0; i < printTask.getColors().size(); i++) {
-                            for (Spool spool : freeSpools) {
-                                if (spool.spoolMatch(printTask.getColors().get(i), printTask.getFilamentType()) && !containsSpool(chosenSpools, printTask.getColors().get(i))) {
-                                    chosenSpools.add(spool);
-                                }
+                        boolean printWorks = true;
+                        for (int i = 0; i < spools.length && i < printTask.getColors().size(); i++) {
+                            if (!spools[i].spoolMatch(printTask.getColors().get(i), printTask.getFilamentType())) {
+                                printWorks = false;
                             }
                         }
-
-                        // We assume that if they are the same length that there is a match.
-                        if (chosenSpools.size() == printTask.getColors().size()) {
+                        if (printWorks) {
                             runningPrintTasks.put(printer, printTask);
-
-                            freeSpools.addAll(Arrays.asList(printer.getCurrentSpools()));
-
-                            printer.setCurrentSpools(chosenSpools);
-                            for (Spool spool : chosenSpools) {
-                                System.out.println("Please place spool " + spool.getId() + " in printer " + printer.getName());
-                                freeSpools.remove(spool);
-                            }
                             freePrinters.remove(printer);
                             chosenTask = printTask;
+                            break;
                         }
                     }
                 }
@@ -140,6 +97,57 @@ public class PrinterManager {
             if(chosenTask != null) {
                 pendingPrintTasks.remove(chosenTask);
                 System.out.println("Started task " + chosenTask + " on printer " + printer.getName());
+            } else {
+                // If we didn't find a print for the current spool we search for a print with the free spools.
+                for(PrintTask printTask: printTasksFromStrategy) {
+                    if(printer.printFits(printTask.getPrint()) && getPrinterCurrentTask(printer) == null && printer.printerCompatibleWithTask(printTask)) {
+                        if (printTask.getColors().size() == 1) {
+                            Spool chosenSpool = null;
+                            for (Spool spool : freeSpools) {
+                                if (spool.spoolMatch(printTask.getColors().get(0), printTask.getFilamentType())) {
+                                    chosenSpool = spool;
+                                }
+                            }
+                            if (chosenSpool != null) {
+                                runningPrintTasks.put(printer, printTask);
+                                freeSpools.add(printer.getCurrentSpools()[0]);
+                                System.out.println("Please place spool " + chosenSpool.getId() + " in printer " + printer.getName());
+                                freeSpools.remove(chosenSpool);
+                                freePrinters.remove(printer);
+                                printer.setCurrentSpool(chosenSpool);
+                                chosenTask = printTask;
+                            }
+                        } else {
+                            ArrayList<Spool> chosenSpools = new ArrayList<>();
+                            for (int i = 0; i < printTask.getColors().size(); i++) {
+                                for (Spool spool : freeSpools) {
+                                    if (spool.spoolMatch(printTask.getColors().get(i), printTask.getFilamentType()) && !containsSpool(chosenSpools, printTask.getColors().get(i))) {
+                                        chosenSpools.add(spool);
+                                    }
+                                }
+                            }
+
+                            // We assume that if they are the same length that there is a match.
+                            if (chosenSpools.size() == printTask.getColors().size()) {
+                                runningPrintTasks.put(printer, printTask);
+
+                                freeSpools.addAll(Arrays.asList(printer.getCurrentSpools()));
+
+                                printer.setCurrentSpools(chosenSpools);
+                                for (Spool spool : chosenSpools) {
+                                    System.out.println("Please place spool " + spool.getId() + " in printer " + printer.getName());
+                                    freeSpools.remove(spool);
+                                }
+                                freePrinters.remove(printer);
+                                chosenTask = printTask;
+                            }
+                        }
+                    }
+                }
+                if(chosenTask != null) {
+                    pendingPrintTasks.remove(chosenTask);
+                    System.out.println("Started task " + chosenTask + " on printer " + printer.getName());
+                }
             }
         }
     }
