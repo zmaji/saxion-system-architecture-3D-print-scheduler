@@ -20,10 +20,6 @@ public class LessSpoolChangeStrategy implements PrintStrategy {
             }
         }
 
-        for (PrintTask pendingPrintTask : compatibleTasks) {
-            System.out.println(pendingPrintTask);
-        }
-
         if (compatibleTasks.size() != 0) {
             Collections.sort(compatibleTasks);
         } else {

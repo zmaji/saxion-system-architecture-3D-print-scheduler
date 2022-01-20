@@ -46,7 +46,7 @@ public class HousedPrinter extends Printer {
 
     @Override
     public boolean printFits(Print print) {
-        return true;
+        return print.getHeight() <= maxZ && print.getWidth() <= maxX && print.getLength() <= maxY;
     }
 
     @Override

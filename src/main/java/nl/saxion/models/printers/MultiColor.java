@@ -62,8 +62,8 @@ public class MultiColor extends Printer {
 
     @Override
     public String toString() {
-        System.out.println(this.name);
         String result = super.toString() +
+                "Current spool: " + currentSpool.getId()+ System.lineSeparator() +
                 "maxColors: " + maxColors + System.lineSeparator();
         for (int i = 1; i < spools.length; i++) {
             if (spools[i] != currentSpool) {
