@@ -1,7 +1,9 @@
-package nl.saxion.models.readers;
+package nl.saxion.models.readers.json;
 
 import nl.saxion.models.factories.PrintFactory;
 import nl.saxion.models.prints.Print;
+import nl.saxion.models.readers.DataReader;
+import nl.saxion.models.readers.ReaderException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -12,11 +14,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class PrintReader extends JSONReader<Print> {
+public class PrintJSONReader extends DataReader<Print> {
 
     PrintFactory printFactory;
 
-    public PrintReader(String source, PrintFactory printFactory) {
+    public PrintJSONReader(String source, PrintFactory printFactory) {
         super(source);
         this.printFactory = printFactory;
     }

@@ -8,10 +8,10 @@ import nl.saxion.models.prints.FilamentType;
 import nl.saxion.models.prints.Print;
 import nl.saxion.models.prints.PrintTask;
 import nl.saxion.models.prints.Spool;
-import nl.saxion.models.readers.PrintReader;
-import nl.saxion.models.readers.PrinterReader;
+import nl.saxion.models.readers.csv.SpoolCSVReader;
+import nl.saxion.models.readers.json.PrintJSONReader;
+import nl.saxion.models.readers.json.PrinterJSONReader;
 import nl.saxion.models.readers.ReaderException;
-import nl.saxion.models.readers.SpoolReader;
 import nl.saxion.models.strategies.LessSpoolChangeStrategy;
 import nl.saxion.models.strategies.PrintStrategy;
 
@@ -32,18 +32,18 @@ public class PrinterManager {
     private final PrintFactory printFactory = new PrintFactory(this);
     private final SpoolFactory spoolFactory = new SpoolFactory(this);
 
-    private final PrinterReader printerReader;
-    private final PrintReader printReader;
-    private final SpoolReader spoolReader;
+    private final PrinterJSONReader printerJSONReader;
+    private final PrintJSONReader printJSONReader;
+    private final SpoolCSVReader spoolCSVReader;
 
     public PrinterManager() {
-        this.printReader = new PrintReader("/prints.json", this.printFactory);
-        this.spoolReader = new SpoolReader("/spools.csv", this.spoolFactory);
-        this.printerReader = new PrinterReader("/printers.json", this.printerFactory);
+        this.printJSONReader = new PrintJSONReader("/prints.json", this.printFactory);
+        this.spoolCSVReader = new SpoolCSVReader("/spools.csv", this.spoolFactory);
+        this.printerJSONReader = new PrinterJSONReader("/printers.json", this.printerFactory);
         try {
-            printReader.readItems();
-            spoolReader.readItemsFromCSV();
-            printerReader.readItems();
+            printJSONReader.readItems();
+            spoolCSVReader.readItems();
+            printerJSONReader.readItems();
         } catch (ReaderException e) {
             e.printStackTrace();
         }

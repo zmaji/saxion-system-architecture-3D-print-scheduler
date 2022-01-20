@@ -1,8 +1,10 @@
-package nl.saxion.models.readers;
+package nl.saxion.models.readers.json;
 
 import nl.saxion.models.factories.SpoolFactory;
 import nl.saxion.models.prints.FilamentType;
 import nl.saxion.models.prints.Spool;
+import nl.saxion.models.readers.DataReader;
+import nl.saxion.models.readers.ReaderException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -15,11 +17,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
 
-public class SpoolReader extends JSONReader<Spool> {
+public class SpoolJSONReader extends DataReader<Spool> {
 
     SpoolFactory spoolFactory;
 
-    public SpoolReader(String source, SpoolFactory spoolFactory) {
+    public SpoolJSONReader(String source, SpoolFactory spoolFactory) {
         super(source);
         this.spoolFactory = spoolFactory;
     }

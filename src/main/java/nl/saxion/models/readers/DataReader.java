@@ -3,11 +3,11 @@ package nl.saxion.models.readers;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract public class JSONReader<T> {
+abstract public class DataReader<T> {
     final protected String source;
     protected List<T> readItems = new ArrayList<>();
 
-    public JSONReader(String source) {
+    public DataReader(String source) {
         this.source = source;
     }
 
