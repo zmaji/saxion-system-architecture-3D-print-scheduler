@@ -41,13 +41,13 @@ public class OutputStrings {
         spools.add(new Spool(18, "Blue", "ABS", 2000.5));
         spools.add(new Spool(19, "Red", "ABS", 2500.0));
         spools.add(new Spool(20, "Green", "ABS", 2500.0));
-        spools.add(new Spool(21, "Blue", "PLA", 1000.0));
 
     }
 
     public void addPrinter(Printer printer) {
         printers.add(printer);
     }
+    public void addSpool(Spool spool) {spools.add(spool);}
 
     public String menu() {
         return "Print Manager" + System.lineSeparator() +
@@ -110,6 +110,10 @@ public class OutputStrings {
 
     public void setCurrentSpoolOnPrinter(int index, int spoolid) {
         printers.get(index).setCurrentSpool(spoolid);
+    }
+
+    public void setCurrentSpoolOnPrinter(int index, int spool1, int spool2, int spool3, int spool4) {
+        printers.get(index).setCurrentSpool(spool1, spool2, spool3, spool4);
     }
 
     public void reduceSpoolLength(int index, double length) {
