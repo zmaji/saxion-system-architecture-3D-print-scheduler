@@ -30,26 +30,6 @@ public class PrintTask implements Comparable<PrintTask> {
         return print;
     }
 
-    public void setTaskPending() {
-        this.state.stateEnabled();
-    }
-
-    public void completeTask() {
-        this.state.stateEnabled();
-    }
-
-    public void failTask() {
-        this.state.stateEnabled();
-    }
-
-    public void setState(PrintTaskState state) {
-        this.state = state;
-    }
-
-    public PrintTaskState getState() {
-        return state;
-    }
-
     @Override
     public String toString() {
         return print.getName() +" " + filamentType + " " + colors.toString();
